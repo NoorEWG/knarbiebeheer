@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AboService} from './abo.service';
 import { ModalPopoverPage } from './modal-popover.page';
-
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-tab1',
@@ -18,15 +18,21 @@ export class Tab1Page {
   public columnsWithSearch : string[] = [];
   public eiland: string;
   public modalDataResponse: any;
+  public userName;
   
   constructor(
     private aboService: AboService,
+    private storage: Storage,
     private modalCtrl: ModalController) {}
 
   
   ngOnInit(): void {
+    this.storage.get("userName").then((result) => {
+      this.userName = result;
+      this.eiland = this.userName === 'Edwin' || this.userName === 'Erica'  ? 'de Biezen' : 'Knarland';
+      });
     this.chosenYear = new Date().getFullYear();
-    this.eiland = 'de Biezen';
+  
     this.columns = [
       { name: 'naam', header: 'Naam', sortable: true },
       { name: 'telefoon', header: 'Telefoon', sortable: false },

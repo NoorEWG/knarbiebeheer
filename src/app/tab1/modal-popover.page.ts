@@ -53,6 +53,7 @@ export class ModalPopoverPage implements OnInit {
     });
     console.log(toast);
     toast.present();
+    this.close();
   }
 
   async close() {
