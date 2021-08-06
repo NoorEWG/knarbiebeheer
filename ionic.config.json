@@ -1,0 +1,7 @@
+{
+  "name": "randmeren",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

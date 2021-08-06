@@ -1,0 +1,76 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Abonnementen {{ chosenYear }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Abonnementen - {{chosenYear}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-item>
+    <ion-input
+    type="text"
+    placeholder="Zoek in de abonnementenlijst"
+    (keyup)="filterDatatable($event)"><ion-icon name="search"></ion-icon></ion-input>  
+  </ion-item>
+  <ion-item>
+    <ion-label>Eiland</ion-label>
+    <ion-select [(ngModel)]="eiland" placeholder="Kies een eiland">
+      <ion-select-option value="de Biezen">de Biezen</ion-select-option>
+      <ion-select-option value="Knarland">Knarland</ion-select-option>
+      <ion-select-option value="Leydam">Leydam</ion-select-option>
+    </ion-select>
+    <ion-input type="number" [(ngModel)]="chosenYear" required="true" min="2020" max="2050" (change)="refreshData()"></ion-input> 
+  </ion-item>
+  
+  <ngx-datatable
+    (activate)="onActivate($event)"
+    class="material"
+    [limit]="10" 
+    [rows]="rows" 
+    [rowHeight]="35" 
+    [columns]="columns"
+    [columnMode]="'force'" 
+    [sortType]="'multi'" 
+    [headerHeight]="40" 
+    [footerHeight]="60">
+  
+    <ngx-datatable-column name="naam">
+      <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <span *ngIf="row.tussenvoegsel !== ''">{{row.tussenvoegsel}} </span>
+        {{row.naam}}, {{row.voorletters}}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="telefoon">
+      <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{row.telefoon}}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="boot">
+      <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{row.boot}} ({{row.lengte}}m)
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="type">
+      <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{row.type}}
+      </ng-template>
+    </ngx-datatable-column>
+
+  </ngx-datatable>
+
+</ion-content>

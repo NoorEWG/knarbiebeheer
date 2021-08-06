@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-toast>{{ message }}</ion-toast>
+  <ion-card>
+    <ion-card-header><em>{{ subTitle }}</em></ion-card-header>
+    <ion-row>
+      <ion-col>
+        <div>Eiland</div>
+      </ion-col>
+      <ion-col>
+        <div>{{ eiland }}</div>  
+      </ion-col>
+    </ion-row>  
+    <ion-row>
+      <ion-col>
+        <div>Naam</div>
+      </ion-col>
+      <ion-col>  
+        <div>{{ naam }}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>Boot</div>
+      </ion-col>
+      <ion-col>
+        <div>{{ abonnementsHouder.boot}} ({{abonnementsHouder.lengte}} m)</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-label>Datum</ion-label>
+      </ion-col>
+      <ion-col>
+        <input name="date"  [value]="chosenDate" type="date" (input)="parseDate($event.target.value)">
+        <!-- <input type="date" [value]="today" ngModel="chosenDate"> -->
+        <!-- <ion-datetime picker-format="DD/MM/YYYY"
+        display-format="DD/MM/YYYY"  [(ngModel)]="chosenDate"></ion-datetime> -->
+      </ion-col>
+    </ion-row>
+  </ion-card>
+  <ion-card-footer>
+    <ion-col text-center>
+      <ion-button (click)="save()">Opslaan</ion-button>
+    </ion-col>
+    <ion-col text-center>  
+      <ion-button (click)="close()">Terug</ion-button>
+    </ion-col>
+  </ion-card-footer>
+</ion-content>
