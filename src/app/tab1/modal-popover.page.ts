@@ -44,14 +44,12 @@ export class ModalPopoverPage implements OnInit {
     }
   }
 
-
   async presentToast() {
     const toast = await this.toastCtrl.create({
       message: this.message,
       duration: 3500,
       position: 'middle',  
     });
-    console.log(toast);
     toast.present();
     this.close();
   }
