@@ -43,11 +43,11 @@ export class LoginPage implements OnInit {
 
   login() {
     // TODO check if user is authorized with real backend - for now only email check
-    if (this.user.value.email === 'edwin.cosmopolite@gmail.com') {
+    if (this.user.value.email === 'edwin.cosmopolite@gmail.com' || this.user.value.email.toLowerCase() === 'edwin') {
       this.userName = 'Edwin';
-    } else if (this.user.value.email === 'erica.de.graaf.borkent@gmail.com') { 
+    } else if (this.user.value.email === 'erica.de.graaf.borkent@gmail.com' || this.user.value.email.toLowerCase() === 'erica') { 
       this.userName = 'Erica';
-    } else if (this.user.value.email === 'gerrithoutzager@gmail.com') {
+    } else if (this.user.value.email === 'gerrithoutzager@gmail.com' || this.user.value.email.toLowerCase() === 'gerrit') {
       this.userName = 'Gerrit';
     } 
 

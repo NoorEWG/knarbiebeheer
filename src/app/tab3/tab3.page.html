@@ -13,66 +13,126 @@
     </ion-toolbar>
   </ion-header>
 
-<ion-card>
-  <ion-card-header><em>Vergelijking</em></ion-card-header>
-  <ion-row>
-    <ion-col>Totale opbrengst: {{ totaalAbonnementenOpbrengst | currency : 'EUR' }}</ion-col>
-    <ion-col>Totaal aantal meters: {{ totalMeters }}</ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col>Aandeel de Biezen: {{ totaalAbonnementenOpbrengst * 35 / 478 | currency : 'EUR' }}</ion-col>
-    <ion-col>Fictieve opbrengst abonnementen {{ fictieveOpbrengstBiezen | currency : 'EUR'}}</ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col>Aandeel Knarland: {{ totaalAbonnementenOpbrengst * 36 / 478 | currency : 'EUR' }}</ion-col>
-    <ion-col>Fictieve opbrengst abonnementen {{ fictieveOpbrengstKnarland | currency : 'EUR'}}</ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col>Aandeel Leydam: {{ totaalAbonnementenOpbrengst * 15 / 478 | currency : 'EUR'}}</ion-col>
-    <ion-col>Fictieve opbrengst abonnementen {{ fictieveOpbrengstLeydam | currency : 'EUR'}}</ion-col>
-  </ion-row>
-</ion-card>
+  <ion-toast>
+    <div *ngIf="detail !== null">
+      <div>{{ detail }}</div>
+    </div>
+  </ion-toast>
+  <mat-accordion>
 
+    <ion-card>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Vergelijkingen opbrengst abonnementen
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      
+        <ion-card>
+          <ion-card-header><b>Totalen</b></ion-card-header>
+          <ion-row>
+            <ion-col>Totale opbrengst abonnementen</ion-col>
+            <ion-col>{{ totaalAbonnementenOpbrengst | currency : 'EUR' }}</ion-col>
+          </ion-row>
+          <ion-row>  
+            <ion-col>Totaal aantal meters</ion-col>
+            <ion-col>{{ totalMeters }}</ion-col>
+          </ion-row>
+        </ion-card>
 
+      <ion-card>
+        <ion-card-header><b>de Biezen</b></ion-card-header>
+        <ion-row>
+          <ion-col>Opbrengst abonnementen</ion-col>
+          <ion-col>{{ totaalAbonnementenOpbrengst * 35 / 478 | currency : 'EUR' }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Fictieve opbrengst abonnementen</ion-col>
+          <ion-col>{{ fictieveOpbrengstBiezen | currency : 'EUR'}}</ion-col>
+        </ion-row>
+      </ion-card>
 
-  <ngx-datatable
-  class="material"
-  [limit]="10" 
-  [rows]="rows" 
-  [rowHeight]="35" 
-  [columnMode]="'force'" 
-  [sortType]="'multi'" 
-  [headerHeight]="40" 
-  [footerHeight]="60">
- 
+      <ion-card>  
+        <ion-card-header><b>Knarland</b></ion-card-header>
+        <ion-row>
+          <ion-col>Opbrengst abonnementen</ion-col>
+          <ion-col>{{ totaalAbonnementenOpbrengst * 36 / 478 | currency : 'EUR' }}</ion-col>
+        </ion-row>
+        <ion-row>  
+          <ion-col>Fictieve opbrengst abonnementen</ion-col>
+          <ion-col>{{ fictieveOpbrengstKnarland | currency : 'EUR'}}</ion-col>
+        </ion-row>
+      </ion-card>
 
-  <ngx-datatable-column name="bootNaam">
-    <ng-template let-column="column" ngx-datatable-header-template>{{ column.header }}</ng-template>
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{row.bootNaam}}
-    </ng-template>
-  </ngx-datatable-column>
+      <ion-card>
+        <ion-card-header><b>Leydam</b></ion-card-header>  
+        <ion-row>
+          <ion-col>Opbrengst abonnementen</ion-col>
+          <ion-col>{{ totaalAbonnementenOpbrengst * 15 / 478 | currency : 'EUR'}}</ion-col>
+        </ion-row>
+        <ion-row>  
+          <ion-col>Fictieve opbrengst abonnementen</ion-col>
+          <ion-col>{{ fictieveOpbrengstLeydam | currency : 'EUR'}}</ion-col>
+        </ion-row>
+      </ion-card>
 
-  <ngx-datatable-column name="lengteBoot">
-    <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{row.lengteBoot}} meter
-    </ng-template>
-  </ngx-datatable-column>
+    </mat-expansion-panel>
+  </ion-card>
+  <ion-card>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Overzicht werkelijke / fictieve opbrengst per boot
+        </mat-panel-title>
+      </mat-expansion-panel-header>
 
-  <ngx-datatable-column name="abonnement">
-    <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row.abonnement }} 
-    </ng-template>
-  </ngx-datatable-column> 
+        <ion-item>
+          <ion-input
+          type="text"
+          placeholder="Zoek op naam van een boot"
+          (keyup)="filterDatatable($event)"><ion-icon name="search"></ion-icon></ion-input>  
+        </ion-item>
+        <ngx-datatable
+          class="material"
+          (activate)="onActivate($event)"
+          [limit]="10" 
+          [rows]="rows" 
+          [rowHeight]="35" 
+          [columnMode]="'force'" 
+          [sortType]="'multi'" 
+          [headerHeight]="40" 
+          [footerHeight]="60">
+      
+        <ngx-datatable-column name="bootNaam">
+          <ng-template let-column="column" ngx-datatable-header-template>Naam boot</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.bootNaam}}
+          </ng-template>
+        </ngx-datatable-column>
 
-  <ngx-datatable-column name="fictieveOpbrengst">
-    <ng-template let-column="column" ngx-datatable-header-template>{{ column.name }}</ng-template>
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      <span *ngIf="row.fictieveOpbrengst === null">0</span>
-      <span *ngIf="row.fictieveOpbrengst !== null">{{ row.fictieveOpbrengst }}</span>
-    </ng-template>
-  </ngx-datatable-column> 
-</ngx-datatable> 
+        <ngx-datatable-column name="lengteBoot">
+          <ng-template let-column="column" ngx-datatable-header-template>Lengte boot</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.lengteBoot}} meter
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="abonnement">
+          <ng-template let-column="column" ngx-datatable-header-template>Abonnement</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.abonnement | currency : 'EUR' }}
+          </ng-template>
+        </ngx-datatable-column> 
+
+        <ngx-datatable-column name="fictieveOpbrengst">
+          <ng-template let-column="column" ngx-datatable-header-template>Fictieve opbrengst</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.fictieveOpbrengst | currency : 'EUR' }}
+          </ng-template>
+        </ngx-datatable-column> 
+      </ngx-datatable>     
+    </mat-expansion-panel>
+  </ion-card>
+  </mat-accordion>
+  
 </ion-content>

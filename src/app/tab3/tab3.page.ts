@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { OverzichtService } from './overzicht.service';
-import { RevenuIsland } from '../model/revenu-island';
+import { ToastController} from '@ionic/angular';
+import { RevenuBootDatum } from '../model/revenu-boot-datum';
 
 @Component({
   selector: 'app-tab3',
@@ -16,27 +17,41 @@ export class Tab3Page {
   public totaalAbonnementenOpbrengst: number = 0;
   public fictieveOpbrengstBiezen: number = 0;
   public fictieveOpbrengstKnarland: number = 0;
-  public fictieveOpbrengstLeydam: number = 0
+  public fictieveOpbrengstLeydam: number = 0;
+  public filteredData: any;
+  public columnsWithSearch : string[] = [];
+  public message: string;
+  public revenuPerBootPerDatum: RevenuBootDatum[];
 
-  constructor(private overzichtService: OverzichtService) {}
+  constructor(private overzichtService: OverzichtService,
+    private toastCtrl: ToastController,) {}
 
   ngOnInit(): void {
     this.chosenYear = new Date().getFullYear();
     this.columns = [
       { name: 'bootNaam', header: 'Naam boot', sortable: true },
-      { name: 'lengteBoot', header: 'Lengte boot',  sortable: false },
-      { name: 'abonnement', header: 'Abonnement', sortable: false },
-      { name: 'fictieveObrengst', header: 'Fictieve opbrengst', sortable: false}
+      { name: 'lengteBoot', sortable: true },
+      { name: 'abonnement', sortable: true },
+      { name: 'fictieveOpbrengst', sortable: true }
     ];
     this.overzichtService.getAllSubscriptionsPerBoat(this.chosenYear).subscribe(results => {
       this.rows = results.aboPerBoat;
+      this.revenuPerBootPerDatum = results.revenuPerBoatPerDate;
       this.rows.forEach(row => {
         results.revenuPerBoat.forEach(rev => {
           if (rev.boatId === row.id) {
-            row.fictieveObrengst = rev.revenuPerBoat;
+            row.fictieveOpbrengst = rev.revenuPerBoat;
           }
         })
       });
+      this.rows.forEach(row => {
+        if (row.fictieveOpbrengst === undefined || row.fictieveOpbrengst === null || row.fictieveOpbrengst < 1) {
+          row.fictieveOpbrengst = 0;
+        }
+      });
+      
+      this.filteredData = this.rows;
+      this.columnsWithSearch = ["bootNaam"];
       this.totalMeters = results.totalAbo[0].totalMeters;
       this.totaalAbonnementenOpbrengst = results.totalAbo[0].totalPrice;
       results.revenuPerIsland.forEach(island => {
@@ -51,6 +66,46 @@ export class Tab3Page {
 
       });
     });
-   
+  }
+
+  async presentToast() {
+    const toast = await this.toastCtrl.create({
+      message: this.message,
+      duration: 3500,
+      position: 'middle',  
+    });
+    toast.present();
+    
+  }
+  onActivate(event) {
+    if(event.type == 'click') {
+      let perBoat = this.revenuPerBootPerDatum.filter(r => r.boatId === event.row.id);
+      let message = event.row.bootNaam + ': ';
+      let data = [];
+      if (perBoat !== null && perBoat.length > 0) {
+        perBoat.forEach(row => {
+          data.push(row.datum);
+        });
+        message = message +  data.join(', ');
+      } else {
+        message = message +  'Geen bezoek geregistreerd</div>';
+      }
+      this.message = message;
+      this.presentToast();     
+    }
+  }
+
+
+  filterDatatable(event){   
+    let filter = event.target.value.toLowerCase();
+    this.rows = this.filteredData.filter(item => {
+      for (let i = 0; i < this.columnsWithSearch.length; i++){
+        var colValue = item[this.columnsWithSearch[i]] ;
+        if (!filter || (!!colValue && colValue.toString().toLowerCase().indexOf(filter) !== -1)) {
+          return true;
+        }
+      }
+    });
+    
   }
 }
