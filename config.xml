@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>KnarbieBeheer</name>
+<widget id="io.ionic.starter" version="0.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>KnarBieBeheer</name>
     <description>Beheerders app voor Knarland - de Biezen - Leydam</description>
     <author email="erica.de.graaf.borkent@gmail.com">Erica de Graaf-Borkent</author>
     <content src="index.html" />
