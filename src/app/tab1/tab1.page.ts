@@ -11,6 +11,7 @@ import { Storage } from '@ionic/storage';
 })
 export class Tab1Page {
 
+  public aboSearch: string;
   public chosenYear: number;
   public columns: any;
   public filteredData: any;
@@ -56,18 +57,14 @@ export class Tab1Page {
         'eiland' : this.eiland
       }
     });
-
     modal.onDidDismiss().then((modalDataResponse) => {
-      if (modalDataResponse !== null) {
-        this.modalDataResponse = modalDataResponse.data;
+      if (modalDataResponse.data === 'resetAboSearch') {
+        this.aboSearch = '';
+        this.rows = this.filteredData;
       }
     });
+  
     return await modal.present();
-  }
-
-  async close() {
-    const closeModal: string = "Modal Closed";
-    await this.modalCtrl.dismiss(closeModal);
   }
 
   onActivate(event) {

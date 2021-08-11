@@ -37,7 +37,6 @@ export class LoginPage implements OnInit {
       duration: 3000,
       position: 'middle',  
     });
-    console.log(toast);
     toast.present();
   }
 

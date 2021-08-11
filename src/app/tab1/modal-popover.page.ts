@@ -29,7 +29,6 @@ export class ModalPopoverPage implements OnInit {
 
   ngOnInit() {
     this.chosenDate = new Date().toISOString().split('T')[0];
-    console.log(this.chosenDate);
     this.noEilandInfoAvailable = true;
     if (this.abonnementsHouder.tussenvoegsel === '') {
         this.naam = this.abonnementsHouder.voorletters + " " + this.abonnementsHouder.naam;
@@ -55,7 +54,7 @@ export class ModalPopoverPage implements OnInit {
   }
 
   async close() {
-    const closeModal: string = "Modal Closed";
+    const closeModal: string = "resetAboSearch";
     await this.modalCtrl.dismiss(closeModal);
   }
 

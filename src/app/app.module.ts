@@ -6,6 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AboService } from './tab1/abo.service';
+import { BotterService } from './tab2/botter.service';
 import { OverzichtService } from './tab3/overzicht.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -25,7 +26,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     NgxDatatableModule,
     IonicStorageModule.forRoot()
   ],
-  providers: [AboService, OverzichtService, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [AboService,
+    BotterService, 
+    OverzichtService, 
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

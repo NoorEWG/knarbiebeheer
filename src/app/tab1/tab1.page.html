@@ -16,6 +16,7 @@
   
   <ion-item>
     <ion-input
+    [(ngModel)] = "aboSearch"
     type="text"
     placeholder="Zoek in de abonnementenlijst"
     (keyup)="filterDatatable($event)"><ion-icon name="search"></ion-icon></ion-input>  
@@ -70,7 +71,7 @@
         {{row.type}}
       </ng-template>
     </ngx-datatable-column>
-
+  
   </ngx-datatable>
 
 </ion-content>
