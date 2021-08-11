@@ -43,13 +43,20 @@ export class Tab2Page {
     this.botterService.getBotterVisits(this.chosenYear).subscribe(results => {
       this.rows = results;
     });  
-    
-    
-    
   }  
 
   save() {
-    console.log(JSON.stringify(this.botterVisit.value));
+    this.botterService.addBotterVisit(this.botterVisit.value).subscribe(results => {
+      console.log(results);
+      // TODO make a toast mesasge
+    });  
+  }
+
+  update() {
+    this.botterService.updateBotterVisit(this.botterVisit.value).subscribe(results => {
+      console.log(results);
+      // TODO make a toast mesasge
+    });  
   }
 
   updateAction() {
