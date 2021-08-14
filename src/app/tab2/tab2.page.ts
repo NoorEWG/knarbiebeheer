@@ -17,7 +17,6 @@ export class Tab2Page {
   public botterList: any;
   public rows: any;
   public allRows: any;
-  public wijzigen: boolean = false;
   public actie: string;
   public botterVisit: FormGroup;
   public werkelijkePersonenPerJaar: number = 0;
@@ -36,7 +35,7 @@ export class Tab2Page {
   constructor(private botterService: BotterService, private toastCtrl: ToastController) {}
 
   ngOnInit(): void {
-    this.updateAction();
+    this.actie = "Invoeren";
     this.chosenYear = new Date().getFullYear();
     this.vandaag = new Date().toISOString().split('T')[0];
     this.setBotterForm([], 0, 0, 'Knarland', this.vandaag, false);
@@ -132,22 +131,15 @@ export class Tab2Page {
       this.message = result.message;
         if (result.errorCode === 0) {
           this.getBotterVisits();
-          // this.setBotterForm([], 0, 0, 'Knarland', this.vandaag, false);
+          this.setBotterForm([], 0, 0, 'Knarland', this.vandaag, false);
+          this.actie = "Invoeren";
         }
         this.presentToast();
     });  
   }
 
-  updateAction() {
-    if (this.wijzigen) {
-      this.actie = "Wijzigen";
-    } else {
-      this.actie = "Invoeren";
-    }
-  }
-
-   // TODO make a filter service for all tabs !
-   filterDatatable(){
+  // TODO make a filter service for all tabs !
+  filterDatatable(){
     let filter = this.selectedMonth.value;
     this.rows = this.allRows.filter(item => {
       for (let i = 0; i < this.columnsWithSearch.length; i++){
