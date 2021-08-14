@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { Botter } from '../model/botter';
 import { BotterVisitTotal } from '../model/botter-visit-total';
 import { Result } from '../model/result';
+import { BotterVisit } from '../model/botter-visit';
 
 @Injectable()
 export class BotterService {
@@ -36,8 +37,9 @@ export class BotterService {
   /**
    * Update a visit of a botter
    */
-   updateBotterVisit(botterBezoek): Observable<Result> {
-    return this.http.post<Result>(environment.botterVisitUpdateUrl, botterBezoek);
+   updateBotterVisit(updateBotterBezoek): Observable<Result> {
+    console.log(JSON.stringify(updateBotterBezoek));
+    return this.http.post<Result>(environment.botterVisitUpdateUrl, updateBotterBezoek);
   }
 
 

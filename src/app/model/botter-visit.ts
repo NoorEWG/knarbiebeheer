@@ -1,5 +1,6 @@
 
 export class BotterVisit {
+  botterBezoekId: number;
   naamBoot: string;
   typeBoot: string; 
   datum: string;

@@ -31,6 +31,7 @@ export class Tab2Page {
   public message: string;
   public vandaag: string;
   public isExpanded: boolean = false;
+  public selectedBotterBezoekId = null;
 
   constructor(private botterService: BotterService, private toastCtrl: ToastController) {}
 
@@ -125,8 +126,15 @@ export class Tab2Page {
   }
 
   update() {
-    this.botterService.updateBotterVisit(this.botterVisit.value).subscribe(results => {
-      // TODO
+    let botterValue = this.botterVisit.value;
+    botterValue.botterBezoekId = this.selectedBotterBezoekId;
+    this.botterService.updateBotterVisit(botterValue).subscribe(result => {
+      this.message = result.message;
+        if (result.errorCode === 0) {
+          this.getBotterVisits();
+          // this.setBotterForm([], 0, 0, 'Knarland', this.vandaag, false);
+        }
+        this.presentToast();
     });  
   }
 
@@ -181,7 +189,8 @@ export class Tab2Page {
       const month = splitString[1];
       const day = splitString[0];
       const correctDate = year + "-" + month + "-" + day;
-      this.setBotterForm(botters, event.row.verwachtePersonen, event.row.werkelijkePersonen, event.row.eiland, correctDate, true);
+      this.setBotterForm(botters, event.row.verwachtePersonen, event.row.verwachtePersonen, event.row.eiland, correctDate, true);
+      this.selectedBotterBezoekId = event.row.botterBezoekId;
       this.togglePanel();
     }  
   }
