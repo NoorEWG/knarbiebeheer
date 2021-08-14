@@ -28,29 +28,29 @@
           <form [formGroup]="botterVisit" novalidate>
           
             <ion-item>
-              <ion-label for="botters">Botter(s)</ion-label>
+              <span class="ion-label">Botter(s)</span>
               <ion-select formControlName="botters" class="custom-options" multiple="true">
                 <ion-select-option *ngFor="let b of botterList" [value]="b">{{ b.naamBoot}}</ion-select-option>
               </ion-select>
             </ion-item>
             
             <ion-item>
-              <ion-label for="verwachtePersonen">Verwachte personen</ion-label>
+              <span class="ion-label">Verwachte personen</span>
               <ion-input name="verwachtePersonen" formControlName="verwachtePersonen" value=0 type="number"></ion-input>
             </ion-item>
 
             <ion-item *ngIf="wijzigen">
-              <ion-label for="werkelijkePersonen">Werkelijke personen</ion-label>
+              <span class="ion-label">Werkelijke personen</span>
               <ion-input name="werkelijkePersonen" formControlName="werkelijkePersonen" value=0 type="number"></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-label for="datum">Datum</ion-label>
+              <span class="ion-label">Datum</span>
               <ion-input name="datum" formControlName="datum" type="date"></ion-input>
             </ion-item>
             
             <ion-item>
-              <ion-label for="eiland">Eiland</ion-label>
+              <span class="ion-label">Eiland</span>
               <ion-input name="eiland" formControlName="eiland" type="text"></ion-input>
             </ion-item>
 
@@ -68,6 +68,18 @@
             Overzicht botters
           </mat-panel-title>
         </mat-expansion-panel-header>
+        <div>Verwachte aantal personen in {{ chosenYear }}: {{ verwachtePersonenPerJaar }}</div>
+        <div>Werkelijk aantal personen in {{ chosenYear }}: {{ werkelijkePersonenPerJaar }}</div>
+        <div *ngIf="selectedMonth.value">Verwachte aantal personen in {{ selectedMonth.label }}: {{ verwachtePersonenPerMaand }}</div>
+        <div *ngIf="selectedMonth.value">Werkelijk aantal personen in {{ selectedMonth.label }}: {{ werkelijkePersonenPerMaand }}</div>
+        <div>
+          <ion-item>
+            <span class="ion-label">Maand</span>
+            <ion-select [(ngModel)]="selectedMonth" (ionChange)="filterDatatable()">
+              <ion-select-option *ngFor="let m of maanden" [value]="m">{{ m.label}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
         <ngx-datatable
         class="material"
         [limit]="10" 
@@ -79,9 +91,9 @@
         [footerHeight]="60">
         
         <ngx-datatable-column name="naamBoot">
-          <ng-template let-column="column" ngx-datatable-header-template>Naam boot</ng-template>
+          <ng-template let-column="column" ngx-datatable-header-template>Naam botter(s)</ng-template>
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{row.naamBoot}} ({{row.typeBoot | lowercase }})
+            {{row.naamBoot}}
           </ng-template>
         </ngx-datatable-column>
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { PersonenVerwachtWerkelijk } from '../model/personen-verwacht-werkelijk';
 import { BotterService } from './botter.service';
 
 @Component({
@@ -13,14 +14,24 @@ export class Tab2Page {
   public columns: any;
   public botterList: any;
   public rows: any;
+  public allRows: any;
   public wijzigen: boolean = false;
   public actie: string;
   public botterVisit: FormGroup;
+  public werkelijkePersonenPerJaar: number = 0;
+  public verwachtePersonenPerJaar: number = 0;
+  public werkelijkePersonenPerMaand: number = 0;
+  public verwachtePersonenPerMaand: number = 0;
+  public personenPerMaand: PersonenVerwachtWerkelijk[];
+  public maanden: any;
+  public selectedMonth: any;
+  public columnsWithSearch: any;
 
   constructor(private botterService: BotterService) {}
 
   ngOnInit(): void {
     this.updateAction();
+    this.chosenYear = new Date().getFullYear();
     let vandaag = new Date().toISOString().split('T')[0];
     this.botterVisit = new FormGroup({
       botters: new FormControl([], Validators.required),
@@ -29,7 +40,26 @@ export class Tab2Page {
       werkelijkePersonen: new FormControl(0, Validators.required),
       datum: new FormControl(vandaag, Validators.required)
     });
-    this.chosenYear = new Date().getFullYear();
+
+    this.selectedMonth = { label: '', value: null};
+
+    this.columnsWithSearch = ["maand"];
+
+    this.maanden = [
+      { label : 'selecteer een maand', value: null},
+      // { label : 'jan', value: '1'},
+      // { label : 'feb', value: '2'},
+      // { label : 'mrt', value: '3'},
+      { label : 'apr', value: '4'},
+      { label : 'mei', value: '5'},
+      { label : 'jun', value: '6'},
+      { label : 'jul', value: '7'},
+      { label : 'aug', value: '8'},
+      { label : 'sep', value: '9'},
+      { label : 'okt', value: '10'},
+      // { label : 'nov', value: '11'},
+      // { label : 'dec', value: '12'}
+    ];
     this.columns = [
       { name: 'naamBoot', sortable: true },
       { name: 'datum', sortable: true },
@@ -41,14 +71,23 @@ export class Tab2Page {
     });  
 
     this.botterService.getBotterVisits(this.chosenYear).subscribe(results => {
-      this.rows = results;
+      this.allRows = results.botterData;
+      this.rows = this.allRows;
+      this.werkelijkePersonenPerJaar = results.personenBottersPerJaar[0].werkelijkePersonenPerJaar;
+      this.verwachtePersonenPerJaar = results.personenBottersPerJaar[0].verwachtePersonenPerJaar;
+      this.personenPerMaand = results.personenBottersPerMaand;
     });  
   }  
 
+  refreshData() {
+    // TODO
+  }
+
   save() {
+    console.log(JSON.stringify(this.botterVisit.value));
     this.botterService.addBotterVisit(this.botterVisit.value).subscribe(results => {
       console.log(results);
-      // TODO make a toast mesasge
+      alert(results);
     });  
   }
 
@@ -67,4 +106,29 @@ export class Tab2Page {
     }
   }
 
+   // TODO make a filter service for all tabs !
+   filterDatatable(){
+    let filter = this.selectedMonth.value;
+    this.rows = this.allRows.filter(item => {
+      for (let i = 0; i < this.columnsWithSearch.length; i++){
+        var colValue = item[this.columnsWithSearch[i]] ;
+        if (!filter || (colValue && colValue === filter)) {
+          return true;
+        }
+      }
+    });
+    if (filter) {
+      let maandWaarden = null;
+      this.personenPerMaand.forEach(item => {
+        if (item.maand === this.selectedMonth.value) {
+          maandWaarden = item;
+        }
+      });
+      this.verwachtePersonenPerMaand = maandWaarden == null  ? 0 : maandWaarden.verwachtePersonenPerMaand;
+      this.werkelijkePersonenPerMaand = maandWaarden == null ? 0 : maandWaarden.werkelijkePersonenPerMaand;
+    } else {
+      this.verwachtePersonenPerMaand = 0;
+      this.werkelijkePersonenPerMaand = 0;
+    }
+  }
 }

@@ -18,5 +18,12 @@ export class OverzichtService {
     return this.http.get<RevenuAbo>(environment.bootAbonnementUrl + year);
   }
 
+  /**
+   * Get a list of boots with the annual revenu plus the totals for a specific year
+   */
+   getAllSubscriptionsPerDay(year: number): Observable<RevenuAbo> {
+    return this.http.get<RevenuAbo>(environment.bootAbonnementVisitUrl + year);
+  }
+
    
 } 

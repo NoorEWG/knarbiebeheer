@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Botter } from '../model/botter';
-import { BotterVisit } from '../model/botter-visit';
+import { BotterVisitTotal } from '../model/botter-visit-total';
 import { Result } from '../model/result';
 
 @Injectable()
@@ -22,8 +22,8 @@ export class BotterService {
   /**
    * Get a list of all botters visits for a specific year
    */
-   getBotterVisits(year: number): Observable<BotterVisit> {
-    return this.http.get<BotterVisit>(environment.botterVisitsUrl + year);
+   getBotterVisits(year: number): Observable<BotterVisitTotal> {
+    return this.http.get<BotterVisitTotal>(environment.botterVisitsUrl + year);
   }
 
   /**

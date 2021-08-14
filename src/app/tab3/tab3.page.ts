@@ -13,6 +13,7 @@ export class Tab3Page {
   public chosenYear: number;
   public columns: any;
   public rows: any;
+  public visits: any;
   public totalMeters: number = 0;
   public totaalAbonnementenOpbrengst: number = 0;
   public fictieveOpbrengstBiezen: number = 0;
@@ -63,8 +64,12 @@ export class Tab3Page {
         } else {
           this.fictieveOpbrengstLeydam = island.revenuPerIsland;
         }
-
       });
+    });
+    
+    this.overzichtService.getAllSubscriptionsPerDay(this.chosenYear).subscribe(results => {
+      this.visits = results;
+      console.log(JSON.stringify(this.visits));
     });
   }
 

@@ -133,6 +133,128 @@
       </ngx-datatable>     
     </mat-expansion-panel>
   </ion-card>
+
+
+
+  <ion-card>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Vergelijkingen opbrengst abonnementen
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      
+        <ion-card>
+          <ion-card-header>Totalen</ion-card-header>
+          <ion-row>
+            <ion-col>Totale opbrengst abonnementen</ion-col>
+            <ion-col>{{ totaalAbonnementenOpbrengst | currency : 'EUR' }}</ion-col>
+          </ion-row>
+          <ion-row>  
+            <ion-col>Totaal aantal meters</ion-col>
+            <ion-col>{{ totalMeters }}</ion-col>
+          </ion-row>
+        </ion-card>
+
+      <ion-card>
+        <ion-card-header>de Biezen</ion-card-header>
+        <ion-row>
+          <ion-col>Opbrengst abonnementen</ion-col>
+          <ion-col>{{ totaalAbonnementenOpbrengst * 35 / 478 | currency : 'EUR' }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Fictieve opbrengst abonnementen</ion-col>
+          <ion-col>{{ fictieveOpbrengstBiezen | currency : 'EUR'}}</ion-col>
+        </ion-row>
+      </ion-card>
+
+      <ion-card>  
+        <ion-card-header>Knarland</ion-card-header>
+        <ion-row>
+          <ion-col>Opbrengst abonnementen</ion-col>
+          <ion-col>{{ totaalAbonnementenOpbrengst * 36 / 478 | currency : 'EUR' }}</ion-col>
+        </ion-row>
+        <ion-row>  
+          <ion-col>Fictieve opbrengst abonnementen</ion-col>
+          <ion-col>{{ fictieveOpbrengstKnarland | currency : 'EUR'}}</ion-col>
+        </ion-row>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>Leydam</ion-card-header>  
+        <ion-row>
+          <ion-col>Opbrengst abonnementen</ion-col>
+          <ion-col>{{ totaalAbonnementenOpbrengst * 15 / 478 | currency : 'EUR'}}</ion-col>
+        </ion-row>
+        <ion-row>  
+          <ion-col>Fictieve opbrengst abonnementen</ion-col>
+          <ion-col>{{ fictieveOpbrengstLeydam | currency : 'EUR'}}</ion-col>
+        </ion-row>
+      </ion-card>
+
+    </mat-expansion-panel>
+  </ion-card>
+  <ion-card>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Overzicht werkelijke / fictieve opbrengst per boot
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+        <ion-item>
+        </ion-item>
+        <ngx-datatable
+          class="material"
+          [limit]="10" 
+          [rows]="visits" 
+          [rowHeight]="35" 
+          [columnMode]="'force'" 
+          [sortType]="'multi'" 
+          [headerHeight]="40" 
+          [footerHeight]="60">
+      
+          <ngx-datatable-column name="datum">
+            <ng-template let-column="column" ngx-datatable-header-template>Datum</ng-template>
+            <ng-template let-row="visit" ngx-datatable-cell-template>
+              {{row.datum}}
+            </ng-template>
+          </ngx-datatable-column>
+        
+          <ngx-datatable-column name="bootNaam">
+            <ng-template let-column="column" ngx-datatable-header-template>Naam boot</ng-template>
+            <ng-template let-row="visit" ngx-datatable-cell-template>
+              {{row.bootNaam}}
+            </ng-template>
+          </ngx-datatable-column>
+
+        <ngx-datatable-column name="deBiezen">
+          <ng-template let-column="column" ngx-datatable-header-template>De Biezen</ng-template>
+          <ng-template let-row="visit" ngx-datatable-cell-template>
+            {{row.deBiezen}} 
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="knarland">
+          <ng-template let-column="column" ngx-datatable-header-template>Knarland</ng-template>
+          <ng-template let-visit="visit" ngx-datatable-cell-template>
+            {{visit.knarland}} 
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>     
+    </mat-expansion-panel>
+  </ion-card>
+
+
+
+
+
+
+
+
+
+
   </mat-accordion>
   
 </ion-content>

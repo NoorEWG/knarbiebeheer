@@ -7,6 +7,11 @@
     font-size: 10px;
 }
 
+.ion-label {
+    min-width: 48%;
+    width: 48%;
+}
+
 ::ng-deep mat-accordion, mat-expansion-panel .mat-expansion-panel {
     margin-left: 2px;
     margin-right: 2px;
