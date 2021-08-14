@@ -23,6 +23,7 @@ export class Tab3Page {
   public columnsWithSearch : string[] = [];
   public message: string;
   public revenuPerBootPerDatum: RevenuBootDatum[];
+  public visitColumns: any;
 
   constructor(private overzichtService: OverzichtService,
     private toastCtrl: ToastController,) {}
@@ -30,10 +31,17 @@ export class Tab3Page {
   ngOnInit(): void {
     this.chosenYear = new Date().getFullYear();
     this.columns = [
-      { name: 'bootNaam', header: 'Naam boot', sortable: true },
+      { name: 'bootNaam', sortable: true },
       { name: 'lengteBoot', sortable: true },
       { name: 'abonnement', sortable: true },
       { name: 'fictieveOpbrengst', sortable: true }
+    ];
+
+    this.visitColumns = [
+      { name: 'datum', sortable: true },
+      { name: 'naamBoot', sortable: true },
+      { name: 'deBiezen', sortable: true },
+      { name: 'knarland', sortable: true }
     ];
     this.overzichtService.getAllSubscriptionsPerBoat(this.chosenYear).subscribe(results => {
       this.rows = results.aboPerBoat;
