@@ -18,10 +18,10 @@ export class AboService {
     return this.http.get<Abonnement[]>(environment.abonnementUrl + year);
   }
 
-   /**
+  /**
    * Register a visit
    */
-    saveVisit(eilandBezoek): Observable<Result> {
-      return this.http.post<Result>(environment.saveVisitUrl, eilandBezoek);
-    }
+  saveVisit(eilandBezoek): Observable<Result> {
+    return this.http.post<Result>(environment.saveVisitUrl, eilandBezoek);
+  }
 } 

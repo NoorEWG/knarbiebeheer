@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { Validators, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { ToastController } from '@ionic/angular';
+
 import { PersonenVerwachtWerkelijk } from '../model/personen-verwacht-werkelijk';
 import { BotterService } from './botter.service';
 
@@ -26,39 +28,28 @@ export class Tab2Page {
   public maanden: any;
   public selectedMonth: any;
   public columnsWithSearch: any;
+  public message: string;
+  public vandaag: string;
+  public isExpanded: boolean = false;
 
-  constructor(private botterService: BotterService) {}
+  constructor(private botterService: BotterService, private toastCtrl: ToastController) {}
 
   ngOnInit(): void {
     this.updateAction();
     this.chosenYear = new Date().getFullYear();
-    let vandaag = new Date().toISOString().split('T')[0];
-    this.botterVisit = new FormGroup({
-      botters: new FormControl([], Validators.required),
-      eiland: new FormControl('Knarland', Validators.required),
-      verwachtePersonen: new FormControl(0, Validators.required),
-      werkelijkePersonen: new FormControl(0, Validators.required),
-      datum: new FormControl(vandaag, Validators.required)
-    });
-
+    this.vandaag = new Date().toISOString().split('T')[0];
+    this.setBotterForm([], 0, 0, 'Knarland', this.vandaag, false);
     this.selectedMonth = { label: '', value: null};
-
     this.columnsWithSearch = ["maand"];
-
     this.maanden = [
       { label : 'selecteer een maand', value: null},
-      // { label : 'jan', value: '1'},
-      // { label : 'feb', value: '2'},
-      // { label : 'mrt', value: '3'},
       { label : 'apr', value: '4'},
       { label : 'mei', value: '5'},
       { label : 'jun', value: '6'},
       { label : 'jul', value: '7'},
       { label : 'aug', value: '8'},
       { label : 'sep', value: '9'},
-      { label : 'okt', value: '10'},
-      // { label : 'nov', value: '11'},
-      // { label : 'dec', value: '12'}
+      { label : 'okt', value: '10'}
     ];
     this.columns = [
       { name: 'naamBoot', sortable: true },
@@ -69,7 +60,10 @@ export class Tab2Page {
     this.botterService.getBotterList(this.chosenYear).subscribe(results => {
       this.botterList = results; 
     });  
+    this.getBotterVisits();  
+  }  
 
+  getBotterVisits() {
     this.botterService.getBotterVisits(this.chosenYear).subscribe(results => {
       this.allRows = results.botterData;
       this.rows = this.allRows;
@@ -77,24 +71,62 @@ export class Tab2Page {
       this.verwachtePersonenPerJaar = results.personenBottersPerJaar[0].verwachtePersonenPerJaar;
       this.personenPerMaand = results.personenBottersPerMaand;
     });  
-  }  
+  }
+
+  setBotterForm(botters, verwacht, werkelijk, eiland, datum, isDisabled) {
+    this.botterVisit = new FormGroup({
+      botters: new FormControl({ value: botters, disabled: isDisabled}, Validators.required),
+      eiland: new FormControl({value: eiland, disabled: isDisabled}, Validators.required),
+      verwachtePersonen: new FormControl({value: verwacht, disabled: isDisabled}, Validators.required),
+      werkelijkePersonen: new FormControl(werkelijk, Validators.required),
+      datum: new FormControl({value: datum, disabled: isDisabled}, Validators.required)
+    });
+  }
+
+  async presentToast() {
+    const toast = await this.toastCtrl.create({
+      message: this.message,
+      duration: 3500,
+      position: 'middle',  
+    });
+    toast.present();
+    this.togglePanel();
+  }
+
+  togglePanel() {
+    if (this.isExpanded) {
+      this.isExpanded = false;
+    } else {
+      this.isExpanded = true;
+    }
+  }
 
   refreshData() {
-    // TODO
+    this.getBotterVisits();
   }
 
   save() {
-    console.log(JSON.stringify(this.botterVisit.value));
-    this.botterService.addBotterVisit(this.botterVisit.value).subscribe(results => {
-      console.log(results);
-      alert(results);
-    });  
+    if (this.botterVisit.value.botters.length < 1) {
+      this.message = "Er zijn geen botters gekozen.";
+      this.presentToast();
+    } else if (this.botterVisit.value.verwachtePersonen < 1) {
+      this.message = "Het verwachte aantal personen moet groter dan 0 zijn.";
+      this.presentToast();
+    } else {
+      this.botterService.addBotterVisit(this.botterVisit.value).subscribe(result => {
+        this.message = result.message;
+        if (result.errorCode === 0) {
+          this.getBotterVisits();
+          this.setBotterForm([], 0, 0, 'Knarland', this.vandaag, false);
+        }
+        this.presentToast();
+      });  
+    }
   }
 
   update() {
     this.botterService.updateBotterVisit(this.botterVisit.value).subscribe(results => {
-      console.log(results);
-      // TODO make a toast mesasge
+      // TODO
     });  
   }
 
@@ -130,5 +162,27 @@ export class Tab2Page {
       this.verwachtePersonenPerMaand = 0;
       this.werkelijkePersonenPerMaand = 0;
     }
+  }
+
+  onActivate(event) {
+    if(event.type == 'click') {
+      this.actie = "Wijzigen";
+      let botters = [];
+      let check = event.row.naamBoot.split(",");
+      this.botterList.forEach(b => {
+        check.forEach(c => {
+          if (c === b.naamBoot) {
+            botters.push(b); 
+          }
+        });
+      });
+      let splitString = event.row.datum.split("-");
+      const year = splitString[2];
+      const month = splitString[1];
+      const day = splitString[0];
+      const correctDate = year + "-" + month + "-" + day;
+      this.setBotterForm(botters, event.row.verwachtePersonen, event.row.werkelijkePersonen, event.row.eiland, correctDate, true);
+      this.togglePanel();
+    }  
   }
 }
