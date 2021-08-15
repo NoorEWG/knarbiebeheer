@@ -100,6 +100,7 @@
           [rowHeight]="35" 
           [columnMode]="'force'" 
           [sortType]="'multi'" 
+          [messages]="{emptyMessage: 'Er staat geen boot geregistreed met de gekozen letters in de naam'}"  
           [headerHeight]="40" 
           [footerHeight]="60">
       
@@ -158,6 +159,7 @@
           [rowHeight]="35" 
           [columnMode]="'force'" 
           [sortType]="'multi'" 
+          [messages]="{emptyMessage: 'Op de gekozen datum is er geen bezoek van abonnementshouders geregisteerd'}"  
           [headerHeight]="40" 
           [footerHeight]="60">
 
@@ -191,8 +193,10 @@
             {{row.knarland}} 
           </ng-template>
         </ngx-datatable-column>
-
-      </ngx-datatable>     
+        
+      </ngx-datatable> 
+      <br>    
+      <div>Totaal aantal bezoeken abonnementshouders (alle eilanden) in {{ chosenYear }}: {{ allVisits.length }}</div>
     </mat-expansion-panel>
   </ion-card>
 
