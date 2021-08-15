@@ -30,11 +30,15 @@ export class ModalPopoverPage implements OnInit {
   ngOnInit() {
     this.chosenDate = new Date().toISOString().split('T')[0];
     this.noEilandInfoAvailable = true;
-    if (this.abonnementsHouder.tussenvoegsel === '') {
-        this.naam = this.abonnementsHouder.voorletters + " " + this.abonnementsHouder.naam;
-    } else {
-        this.naam = this.abonnementsHouder.voorletters + " " + this.abonnementsHouder.tussenvoegsel + " " + this.abonnementsHouder.naam;
+    let naam = '';
+    if (this.abonnementsHouder.voorletters && this.abonnementsHouder.voorletters.length > 0) {
+        naam = this.abonnementsHouder.voorletters + ' ';
     }
+    if (this.abonnementsHouder.tussenvoegsel && this.abonnementsHouder.tussenvoegsel.length > 0) {
+        naam = naam + this.abonnementsHouder.voorletters + ' ';
+    }
+    this.naam = naam + this.abonnementsHouder.naam;    
+    
     if (this.eiland === null || this.eiland === '') {
         this.noEilandInfoAvailable = true;
     }
