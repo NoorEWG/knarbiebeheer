@@ -38,7 +38,6 @@ export class BotterService {
    * Update a visit of a botter
    */
    updateBotterVisit(updateBotterBezoek): Observable<Result> {
-    console.log(JSON.stringify(updateBotterBezoek));
     return this.http.post<Result>(environment.botterVisitUpdateUrl, updateBotterBezoek);
   }
 

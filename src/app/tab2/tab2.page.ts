@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
-
 import { PersonenVerwachtWerkelijk } from '../model/personen-verwacht-werkelijk';
 import { BotterService } from './botter.service';
 

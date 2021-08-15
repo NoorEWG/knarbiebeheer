@@ -7,82 +7,97 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Abonnementen - {{chosenYear}}</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-item>
-    <ion-input
-    [(ngModel)] = "aboSearch"
-    type="text"
-    placeholder="Zoek in de abonnementenlijst"
-    (keyup)="filterDatatable($event)"><ion-icon name="search"></ion-icon></ion-input>  
-  </ion-item>
-  <ion-item>
-    <ion-label>Eiland</ion-label>
-    <ion-select [(ngModel)]="eiland" placeholder="Kies een eiland">
-      <ion-select-option value="de Biezen">de Biezen</ion-select-option>
-      <ion-select-option value="Knarland">Knarland</ion-select-option>
-      <ion-select-option value="Leydam">Leydam</ion-select-option>
-    </ion-select>
-    <ion-input type="number" [(ngModel)]="chosenYear" required="true" min="2020" max="2050" (change)="refreshData()"></ion-input> 
-  </ion-item>
-  
-  <ngx-datatable
-    (activate)="onActivate($event)"
-    class="material"
-    [limit]="10" 
-    [rows]="rows" 
-    [rowHeight]="35" 
-    [columns]="columns"
-    [columnMode]="'force'" 
-    [sortType]="'multi'" 
-    [messages]="{emptyMessage: 'Geen abonnnementshouders gevonden'}" 
-    [headerHeight]="40" 
-    [footerHeight]="60">
-  
-    <ngx-datatable-column name="naam">
-      <ng-template let-column="column" ngx-datatable-header-template>Naam</ng-template>
-      <ng-template let-row="row" ngx-datatable-cell-template>
-        <span *ngIf="row.tussenvoegsel !== ''">{{row.tussenvoegsel}} </span>
-        {{row.naam}}, {{row.voorletters}}
-      </ng-template>
-    </ngx-datatable-column>
 
-    <ngx-datatable-column name="telefoon">
-      <ng-template let-column="column" ngx-datatable-header-template>Telefoon</ng-template>
-      <ng-template let-row="row" ngx-datatable-cell-template>
-        {{row.telefoon}}
-      </ng-template>
-    </ngx-datatable-column>
+  <mat-accordion>
+    <mat-expansion-panel *ngIf="admin" [expanded]="isExpanded"
+        (opened)="isExpanded = true"
+        (closed)="isExpanded = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Beheer users, abonnementshouders en boten
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ion-card>
+        <ion-button (click)="addUser()" tooltip="persoon toevoegen" positionV="bottom" arrow><ion-icon name="person"></ion-icon><ion-icon name="add"></ion-icon></ion-button>
+        <ion-button (click)="updateUser()" tooltip="persoon wijzigen" positionV="bottom" arrow><ion-icon name="person"></ion-icon><ion-icon name="create"></ion-icon></ion-button>
+        <ion-button (click)="addUserSubscription()" tooltip="abonnement toevoegen" positionV="bottom" arrow><ion-icon name="people"></ion-icon><ion-icon name="add"></ion-icon></ion-button>
+        <ion-button (click)="addBoat()" tooltip="boot toevoegen" positionV="bottom" arrow><ion-icon name="boat"></ion-icon><ion-icon name="add"></ion-icon></ion-button>
+        <ion-button (click)="updateBoat()" tooltip="boot wijzigen" positionV="bottom" arrow><ion-icon name="boat"></ion-icon><ion-icon name="create"></ion-icon></ion-button>
+        <ion-button (click)="addAdmin()" tooltip="beheerder toevoegen" positionV="bottom" arrow><ion-icon name="settings"></ion-icon><ion-icon name="add"></ion-icon></ion-button>
+      </ion-card>
+    </mat-expansion-panel>
 
-    <ngx-datatable-column name="boot">
-      <ng-template let-column="column" ngx-datatable-header-template>Boot</ng-template>
-      <ng-template let-row="row" ngx-datatable-cell-template>
-        {{row.boot}} ({{row.lengte}}m)
-      </ng-template>
-    </ngx-datatable-column>
+    <mat-expansion-panel [expanded]="!isExpanded"
+      (opened)="isExpanded = false"
+      (closed)="isExpanded = true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Abonnementshouders
+        </mat-panel-title>
+      </mat-expansion-panel-header>
 
-    <ngx-datatable-column name="type">
-      <ng-template let-column="column" ngx-datatable-header-template>Type boot</ng-template>
-      <ng-template let-row="row" ngx-datatable-cell-template>
-        {{row.type}}
-      </ng-template>
-    </ngx-datatable-column>
-  
-  </ngx-datatable>
-  <br>
-  <ion-card>
-    <ion-button (click)="addUser()" tooltip="persoon toevoegen" positionV="top" arrow><ion-icon name="person"></ion-icon><ion-icon name="add"></ion-icon></ion-button>
-    <ion-button (click)="updateUser()" tooltip="persoon wijzigen" positionV="top" arrow><ion-icon name="person"></ion-icon><ion-icon name="create"></ion-icon></ion-button>
-    <ion-button (click)="addUserSubscription()" tooltip="abonnement toevoegen" positionV="top" arrow><ion-icon name="people"></ion-icon><ion-icon name="add"></ion-icon></ion-button>
-    <ion-button (click)="addBoat()" tooltip="boot toevoegen" positionV="top" arrow><ion-icon name="boat"></ion-icon><ion-icon name="add"></ion-icon></ion-button>
-    <ion-button (click)="updateBoat()" tooltip="boot wijzigen" positionV="top" arrow><ion-icon name="boat"></ion-icon><ion-icon name="create"></ion-icon></ion-button>
-    <ion-button (click)="addAdmin()" tooltip="beheerder toevoegen" positionV="top" arrow><ion-icon name="settings"></ion-icon><ion-icon name="add"></ion-icon></ion-button>
-  </ion-card>
+      <ion-item>
+        <ion-input
+        [(ngModel)] = "aboSearch"
+        type="text"
+        placeholder="Zoek in de abonnementenlijst"
+        (keyup)="filterDatatable($event)"><ion-icon name="search"></ion-icon></ion-input>  
+      </ion-item>
+      <ion-item>
+        <ion-label>Eiland</ion-label>
+        <ion-select [(ngModel)]="eiland" placeholder="Kies een eiland">
+          <ion-select-option value="de Biezen">de Biezen</ion-select-option>
+          <ion-select-option value="Knarland">Knarland</ion-select-option>
+          <ion-select-option value="Leydam">Leydam</ion-select-option>
+        </ion-select>
+        <ion-input type="number" [(ngModel)]="chosenYear" required="true" min="2020" max="2050" (change)="refreshData()"></ion-input> 
+      </ion-item>
+      
+      <ngx-datatable
+        (activate)="onActivate($event)"
+        class="material"
+        [limit]="10" 
+        [rows]="rows" 
+        [rowHeight]="35" 
+        [columns]="columns"
+        [columnMode]="'force'" 
+        [sortType]="'multi'" 
+        [messages]="{emptyMessage: 'Geen abonnnementshouders gevonden'}" 
+        [headerHeight]="40" 
+        [footerHeight]="60">
+      
+        <ngx-datatable-column name="naam">
+          <ng-template let-column="column" ngx-datatable-header-template>Naam</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <span *ngIf="row.tussenvoegsel !== ''">{{row.tussenvoegsel}} </span>
+            {{row.naam}}, {{row.voorletters}}
+          </ng-template>
+        </ngx-datatable-column>
 
+        <ngx-datatable-column name="telefoon">
+          <ng-template let-column="column" ngx-datatable-header-template>Telefoon</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.telefoon}}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="boot">
+          <ng-template let-column="column" ngx-datatable-header-template>Boot</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.boot}} ({{row.lengte}}m)
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="type">
+          <ng-template let-column="column" ngx-datatable-header-template>Type boot</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.type}}
+          </ng-template>
+        </ngx-datatable-column>
+      
+      </ngx-datatable>    
+
+    </mat-expansion-panel> 
+  </mat-accordion>
 
 </ion-content>

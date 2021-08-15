@@ -20,6 +20,8 @@ export class Tab1Page {
   public eiland: string;
   public modalDataResponse: any;
   public userName;
+  public isExpanded: boolean = false;
+  public admin: boolean = false;
   
   constructor(
     private aboService: AboService,
@@ -31,6 +33,9 @@ export class Tab1Page {
     this.storage.get("userName").then((result) => {
       this.userName = result;
       this.eiland = this.userName === 'Edwin' || this.userName === 'Erica'  ? 'de Biezen' : 'Knarland';
+      if (this.userName.toLowerCase().includes('erica')) {
+        this.admin = true;
+      }
       });
     this.chosenYear = new Date().getFullYear();
   

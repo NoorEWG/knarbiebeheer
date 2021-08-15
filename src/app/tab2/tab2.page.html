@@ -8,125 +8,140 @@
 
 <ion-content [fullscreen]="true">
   
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Botters</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <mat-accordion>
-    <ion-card>
-      <mat-expansion-panel [expanded]="isExpanded"
-      (opened)="isExpanded = true"
-      (closed)="isExpanded = false">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Invoeren / wijzigen bezoek botters
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+  
+    <mat-expansion-panel [expanded]="isExpanded"
+    (opened)="isExpanded = true"
+    (closed)="isExpanded = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Invoeren / wijzigen bezoek botters
+        </mat-panel-title>
+      </mat-expansion-panel-header>
 
-        <ion-card>
-          <ion-card-header><em>{{ actie }}</em></ion-card-header>
-          <form [formGroup]="botterVisit" novalidate>
-          
-            <ion-item>
-              <span class="ion-label">Botter(s)</span>
-              <ion-select formControlName="botters" class="custom-options" multiple="true">
-                <ion-select-option *ngFor="let b of botterList" [value]="b">{{ b.naamBoot}}</ion-select-option>
-              </ion-select>
-            </ion-item>
-            
-            <ion-item>
-              <span class="ion-label">Verwachte personen</span>
-              <ion-input name="verwachtePersonen" formControlName="verwachtePersonen" value=0 type="number"></ion-input>
-            </ion-item>
-
-            <ion-item *ngIf="actie === 'Wijzigen'">
-              <span class="ion-label">Werkelijke personen</span>
-              <ion-input name="werkelijkePersonen" formControlName="werkelijkePersonen" value=0 type="number"></ion-input>
-            </ion-item>
-
-            <ion-item>
-              <span class="ion-label">Datum</span>
-              <ion-input name="datum" formControlName="datum" type="date"></ion-input>
-            </ion-item>
-            
-            <ion-item>
-              <span class="ion-label">Eiland</span>
-              <ion-input name="eiland" formControlName="eiland" type="text"></ion-input>
-            </ion-item>
-
-          </form>
-          <ion-button *ngIf="actie === 'Wijzigen'" (click)="update()">Wijzigen</ion-button>
-          <ion-button *ngIf="actie !== 'Wijzigen'" (click)="save()">Opslaan</ion-button>
-        </ion-card>
-
-      </mat-expansion-panel>
-    </ion-card>
-    <ion-card>
-      <mat-expansion-panel  [expanded]="!isExpanded"
-      (opened)="isExpanded = false"
-      (closed)="isExpanded = true">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Overzicht botters
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div>Verwachte aantal personen in {{ chosenYear }}: {{ verwachtePersonenPerJaar }}</div>
-        <div>Werkelijk aantal personen in {{ chosenYear }}: {{ werkelijkePersonenPerJaar }}</div>
-        <div *ngIf="selectedMonth.value">Verwachte aantal personen in {{ selectedMonth.label }}: {{ verwachtePersonenPerMaand }}</div>
-        <div *ngIf="selectedMonth.value">Werkelijk aantal personen in {{ selectedMonth.label }}: {{ werkelijkePersonenPerMaand }}</div>
-        <div>
+      <ion-card>
+        <ion-card-header><em>{{ actie }}</em></ion-card-header>
+        <form [formGroup]="botterVisit" novalidate>
+        
           <ion-item>
-            <span class="ion-label">Maand</span>
-            <ion-select [(ngModel)]="selectedMonth" (ionChange)="filterDatatable()">
-              <ion-select-option *ngFor="let m of maanden" [value]="m">{{ m.label}}</ion-select-option>
+            <span class="ion-label">Botter(s)</span>
+            <ion-select formControlName="botters" class="custom-options" multiple="true">
+              <ion-select-option *ngFor="let b of botterList" [value]="b">{{ b.naamBoot}}</ion-select-option>
             </ion-select>
           </ion-item>
-        </div>
-        <ngx-datatable
-        class="material"
-        (activate)="onActivate($event)"
-        [limit]="10" 
-        [rows]="rows" 
-        [rowHeight]="35" 
-        [columnMode]="'force'" 
-        [sortType]="'multi'"
-        [messages]="{emptyMessage: 'In de gekozen periode is er geen bezoek van botters geregistreerd'}"  
-        [headerHeight]="40"
-        [footerHeight]="60">
-        
-        <ngx-datatable-column name="naamBoot">
-          <ng-template let-column="column" ngx-datatable-header-template>Naam botter(s)</ng-template>
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{row.naamBoot}}
-          </ng-template>
-        </ngx-datatable-column>
+          
+          <ion-item>
+            <span class="ion-label">Verwachte personen</span>
+            <ion-input name="verwachtePersonen" formControlName="verwachtePersonen" value=0 type="number"></ion-input>
+          </ion-item>
 
-        <ngx-datatable-column name="datum">
-          <ng-template let-column="column" ngx-datatable-header-template>Datum</ng-template>
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{row.datum}}
-          </ng-template>
-        </ngx-datatable-column>
+          <ion-item *ngIf="actie === 'Wijzigen'">
+            <span class="ion-label">Werkelijke personen</span>
+            <ion-input name="werkelijkePersonen" formControlName="werkelijkePersonen" value=0 type="number"></ion-input>
+          </ion-item>
 
-        <ngx-datatable-column name="verwachtePersonen">
-          <ng-template let-column="column" ngx-datatable-header-template>Personen</ng-template>
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{row.verwachtePersonen}}
-          </ng-template>
-        </ngx-datatable-column>
+          <ion-item>
+            <span class="ion-label">Datum</span>
+            <ion-input name="datum" formControlName="datum" type="date"></ion-input>
+          </ion-item>
+          
+          <ion-item>
+            <span class="ion-label">Eiland</span>
+            <ion-input name="eiland" formControlName="eiland" type="text"></ion-input>
+          </ion-item>
 
-        <ngx-datatable-column name="werkelijkePersonen">
-          <ng-template let-column="column" ngx-datatable-header-template>Definitief</ng-template>
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{row.werkelijkePersonen}}
-          </ng-template>
-        </ngx-datatable-column>
+        </form>
+        <ion-button *ngIf="actie === 'Wijzigen'" (click)="update()" text-center>Wijzigen</ion-button>
+        <ion-button *ngIf="actie !== 'Wijzigen'" (click)="save()" text-center>Opslaan</ion-button>
+      </ion-card>
 
-        </ngx-datatable>
-      </mat-expansion-panel>
-    </ion-card>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel  [expanded]="!isExpanded"
+    (opened)="isExpanded = false"
+    (closed)="isExpanded = true">
+      
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+          Overzicht botters
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+     
+      <ion-card>
+        <ion-item>
+          <ion-col>Verwachte aantal personen in {{ chosenYear }}:</ion-col>
+          <ion-col> {{ verwachtePersonenPerJaar }}</ion-col>
+        </ion-item>
+        <ion-item>
+          <ion-col>Werkelijk aantal personen in {{ chosenYear }}:</ion-col>
+          <ion-col>{{ werkelijkePersonenPerJaar }}</ion-col>
+        </ion-item>
+        <ion-item>
+          <span class="ion-label">Maand</span>
+          <ion-select [(ngModel)]="selectedMonth" (ionChange)="filterDatatable()">
+            <ion-select-option *ngFor="let m of maanden" [value]="m">{{ m.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-card>
+      
+      <br>
+      
+      <ngx-datatable
+      class="material"
+      (activate)="onActivate($event)"
+      [limit]="10" 
+      [rows]="rows" 
+      [rowHeight]="35" 
+      [columnMode]="'force'" 
+      [sortType]="'multi'"
+      [messages]="{emptyMessage: 'In de gekozen periode is er geen bezoek van botters geregistreerd'}"  
+      [headerHeight]="40"
+      [footerHeight]="60">
+      
+      <ngx-datatable-column name="naamBoot">
+        <ng-template let-column="column" ngx-datatable-header-template>Naam botter(s)</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.naamBoot}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="datum">
+        <ng-template let-column="column" ngx-datatable-header-template>Datum</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.datum}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="verwachtePersonen">
+        <ng-template let-column="column" ngx-datatable-header-template>Personen</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.verwachtePersonen}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="werkelijkePersonen">
+        <ng-template let-column="column" ngx-datatable-header-template>Definitief</ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.werkelijkePersonen}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      </ngx-datatable>
+
+      <br>
+
+      <ion-card>
+        <ion-item *ngIf="selectedMonth.value">
+          <ion-col>Verwachte aantal personen in {{ selectedMonth.label }}:</ion-col>
+          <ion-col>{{ verwachtePersonenPerMaand }}</ion-col>
+        </ion-item>
+        <ion-item *ngIf="selectedMonth.value">
+          <ion-col>Werkelijk aantal personen in {{ selectedMonth.label }}:</ion-col>
+          <ion-col>{{ werkelijkePersonenPerMaand }}</ion-col>
+        </ion-item>
+      </ion-card>
+    </mat-expansion-panel>
+    
   </mat-accordion>  
 
 </ion-content>
