@@ -13,7 +13,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

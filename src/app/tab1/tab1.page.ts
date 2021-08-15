@@ -102,4 +102,30 @@ export class Tab1Page {
     //this.table.offset = 0;
   }
 
+  addUser() {
+    // TODO
+  }
+
+  updateUser() {
+    // TODO
+  }
+
+  addUserSubscription() {
+    // TODO
+  }
+
+  addBoat() {
+    // TODO
+  }
+
+  updateBoat() {
+    // TODO
+  }
+
+  addAdmin() {
+    // TODO
+  }
+
+
+
 }

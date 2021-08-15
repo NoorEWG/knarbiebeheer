@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { TooltipsModule } from 'ionic4-tooltips';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     CommonModule,
     FormsModule,
     Tab1PageRoutingModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    TooltipsModule,
   ],
   declarations: [Tab1Page],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
