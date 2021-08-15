@@ -139,7 +139,7 @@ export class Tab3Page {
     if (tabel === 'bootNaam') {
       this.rows = this.allRows.filter(item => {
         var colValue = item[tabel];
-        if (colValue && colValue.includes(filter)) {
+        if (colValue && colValue.toLowerCase().includes(filter)) {
           return true;
         }
       });
