@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { OverzichtService } from './overzicht.service';
 import { ToastController} from '@ionic/angular';
 import { RevenuBootDatum } from '../model/revenu-boot-datum';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-tab3',
@@ -24,12 +25,17 @@ export class Tab3Page {
   public message: string;
   public revenuPerBootPerDatum: RevenuBootDatum[];
   public visitColumns: any;
+  public filteredVisits: any;
+  public dateSearch: any;
+  public allRows: any;
+  public allVisits: any;
 
   constructor(private overzichtService: OverzichtService,
     private toastCtrl: ToastController,) {}
 
   ngOnInit(): void {
     this.chosenYear = new Date().getFullYear();
+    this.dateSearch = new Date().toISOString().split('T')[0];
     this.columns = [
       { name: 'bootNaam', sortable: true },
       { name: 'lengteBoot', sortable: true },
@@ -44,7 +50,8 @@ export class Tab3Page {
       { name: 'knarland', sortable: true }
     ];
     this.overzichtService.getAllSubscriptionsPerBoat(this.chosenYear).subscribe(results => {
-      this.rows = results.aboPerBoat;
+      this.allRows = results.aboPerBoat;
+      this.rows = this.allRows;
       this.revenuPerBootPerDatum = results.revenuPerBoatPerDate;
       this.rows.forEach(row => {
         results.revenuPerBoat.forEach(rev => {
@@ -76,8 +83,9 @@ export class Tab3Page {
     });
     
     this.overzichtService.getAllSubscriptionsPerDay(this.chosenYear).subscribe(results => {
-      this.visits = results;
-      console.log(JSON.stringify(this.visits));
+      this.allVisits = results;
+      this.visits = this.allVisits;
+      this.filterDatatable(this.dateSearch, 'datum');
     });
   }
 
@@ -108,17 +116,47 @@ export class Tab3Page {
     }
   }
 
+  changeDate(value, add) {
+    console.log("in change date, value: " + value);
+    let oldDate = moment(this.dateSearch);
+    let newDate;
+    if ( add === true) {
+      newDate = oldDate.add(value, 'days');
+    } else {
+      newDate = oldDate.subtract(value, 'days');
+    }
+    this.dateSearch = newDate.format("yyyy-MM-DD");
+    this.filterDatatable(this.dateSearch, 'datum');
+  }
 
-  filterDatatable(event){   
-    let filter = event.target.value.toLowerCase();
-    this.rows = this.filteredData.filter(item => {
-      for (let i = 0; i < this.columnsWithSearch.length; i++){
-        var colValue = item[this.columnsWithSearch[i]] ;
-        if (!filter || (!!colValue && colValue.toString().toLowerCase().indexOf(filter) !== -1)) {
+  filterDatatable(event, tabel){
+    let filter;
+    if (event.target !== undefined && event.target !== null) {     
+      filter = event.target.value.toLowerCase();
+    } else {
+      filter = event;
+    }
+    if (tabel === 'bootNaam') {
+      this.rows = this.allRows.filter(item => {
+        var colValue = item[tabel];
+        if (colValue && colValue.includes(filter)) {
           return true;
         }
-      }
-    });
+      });
+    }
+    if (tabel === 'datum') {
+      let splitString = filter.split("-");
+      const year = splitString[0];
+      const month = splitString[1];
+      const day = splitString[2];
+      const correctDate = day + "-" + month + "-" + year;
+      this.visits = this.allVisits.filter(item => {
+        var colValue = item[tabel];
+        if (colValue && colValue === correctDate) {
+          return true;
+        }
+      });
+    }
     
   }
 }

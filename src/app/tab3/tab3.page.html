@@ -90,7 +90,7 @@
           <ion-input
           type="text"
           placeholder="Zoek op naam van een boot"
-          (keyup)="filterDatatable($event)"><ion-icon name="search"></ion-icon></ion-input>  
+          (keyup)="filterDatatable($event, 'bootNaam')"><ion-icon name="search"></ion-icon></ion-input>  
         </ion-item>
         <ngx-datatable
           class="material"
@@ -138,12 +138,19 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Overzicht per datum
+          Overzicht bezoek abonnementshouders op datum
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-        <ion-item>
-        </ion-item>
+      <ion-item>
+        <ion-input
+        [(ngModel)] = "dateSearch"
+        type="date"
+        placeholder="Zoek per datum"
+        (change)="filterDatatable($event, 'datum')"><ion-icon name="search"></ion-icon></ion-input>
+        <ion-icon name="chevron-back-outline" (click)="changeDate(1, false)"></ion-icon>
+        <ion-icon name="chevron-forward-outline" (click)="changeDate(1, true)"></ion-icon>  
+      </ion-item>
         <ngx-datatable
           class="material"
           [limit]="10" 
