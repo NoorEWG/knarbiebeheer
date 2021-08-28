@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Abonnement} from '../model/Abonnement';
+import { Abonnement } from '../model/Abonnement';
+import { User } from '../model/user';
+import { Boot } from '../model/boot';
 import { Result } from '../model/result';
 
 @Injectable()
@@ -24,4 +26,19 @@ export class AboService {
   saveVisit(eilandBezoek): Observable<Result> {
     return this.http.post<Result>(environment.saveVisitUrl, eilandBezoek);
   }
+
+  /**
+   * Get all boats
+   */
+  getAllBoats(): Observable<Boot[]> {
+    return this.http.get<Boot[]>(environment.botenLijstUrl);
+  }
+
+  /**
+  * Get all boats
+  */
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(environment.usersLijstUrl);
+  }
+
 } 

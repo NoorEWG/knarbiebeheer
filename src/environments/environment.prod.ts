@@ -7,6 +7,8 @@ export const environment = {
   botterListUrl: 'https://paardrijvakantie.com/randmeren/API/getBotterListPerYear.php?year=',
   botterVisitsUrl: 'https://paardrijvakantie.com/randmeren/API/getBotterVisitsPerYear.php?year=',
   botterVisitAddUrl: 'https://paardrijvakantie.com/randmeren/API/addBotterVisit.php',
-  botterVisitUpdateUrl: 'https://paardrijvakantie.com/randmeren/API/updateBotterVisit.php'
+  botterVisitUpdateUrl: 'https://paardrijvakantie.com/randmeren/API/updateBotterVisit.php',
+  botenLijstUrl: 'https://paardrijvakantie.com/randmeren/API/getBoats.php',
+  usersLijstUrl: 'https://paardrijvakantie.com/randmeren/API/getUsers.php',
 
 };

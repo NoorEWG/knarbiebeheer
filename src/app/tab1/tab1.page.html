@@ -25,6 +25,128 @@
         <ion-button (click)="updateBoat()" tooltip="boot wijzigen" positionV="bottom" arrow><ion-icon name="boat"></ion-icon><ion-icon name="create"></ion-icon></ion-button>
         <ion-button (click)="addAdmin()" tooltip="beheerder toevoegen" positionV="bottom" arrow><ion-icon name="settings"></ion-icon><ion-icon name="add"></ion-icon></ion-button>
       </ion-card>
+      
+      <ion-card *ngIf="showUserForm">
+        <ion-card-header><em>Bezoeker</em></ion-card-header>
+        <form [formGroup]="userForm" novalidate>
+        
+          <ion-item>
+            <span class="ion-label">Voorletters</span>
+            <ion-input name="voorletters" formControlName="voorletters" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <span class="ion-label">Tussenvoegsel</span>
+            <ion-input name="tussenvoegsel" formControlName="tussenvoegsel" type="text"></ion-input>
+          </ion-item>
+          
+          <ion-item>
+            <span class="ion-label">Naam</span>
+            <ion-input name="naam" formControlName="naam" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <span class="ion-label">Telefoon</span>
+            <ion-input name="telefoon" formControlName="telefoon" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <span class="ion-label">Email</span>
+            <ion-input name="email" formControlName="email" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <span class="ion-label">Thuishaven</span>
+            <ion-input name="thuishaven" formControlName="thuishaven" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <span class="ion-label">Opmerking</span>
+            <ion-input name="opmerking" formControlName="opmerking" type="text"></ion-input>
+          </ion-item>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Boot toevoegen</ion-label>
+                <ion-checkbox name="createBoat" [value]="createBoat"></ion-checkbox>
+              </ion-item>
+            </ion-col>
+
+            <ion-col>
+              <ion-item>
+                <ion-label>Boot koppelen</ion-label>
+                <ion-checkbox name="changeUserBoat" [value]="changeUserBoat">Boot koppelen</ion-checkbox>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+         
+
+        </form>
+        <ion-button *ngIf="actie === 'Wijzigen'" (click)="update()" text-center>Wijzigen</ion-button>
+        <ion-button *ngIf="actie !== 'Wijzigen'" (click)="save()" text-center>Opslaan</ion-button>
+      </ion-card>
+
+      <ion-card *ngIf="showUserList">
+        <span class="ion-label">Bezoeker</span>
+        <ion-select class="custom-options" [(ngModel)]="user">
+          <ion-select-option *ngFor="let u of userList" [value]="u">{{ u.voorletters}} {{ u.tussenvoegsel}} {{ u.naam}}</ion-select-option>
+        </ion-select>
+      </ion-card>
+      
+      
+      <ion-card *ngIf="showBoatList">      
+        <span class="ion-label">Boten</span>
+        <ion-select class="custom-options" [(ngModel)]="boat">
+          <ion-select-option *ngFor="let b of boatList" [value]="b">{{ b.naamBoot}}</ion-select-option>
+        </ion-select>
+      </ion-card>
+
+      <ion-card *ngIf="showBoatForm">
+        <ion-card-header><em>Boot</em></ion-card-header>
+        <form [formGroup]="boatForm" novalidate>
+        
+          <ion-item>
+            <span class="ion-label">Naam boot</span>
+            <ion-input name="naamBoot" formControlName="naamBoot" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <span class="ion-label">Lengte boot</span>
+            <ion-input name="lengteBoot" formControlName="lengteBoot" type="number"></ion-input>
+          </ion-item>
+          
+          <ion-item>
+            <span class="ion-label">Type boot</span>
+            <ion-input name="typeBoot" formControlName="typeBoot" type="text"></ion-input>
+          </ion-item>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Bezoeker toevoegen</ion-label>
+                <ion-checkbox name="createUser" [value]="createUser"></ion-checkbox>
+              </ion-item>
+            </ion-col>
+
+            <ion-col>
+              <ion-item>
+                <ion-label>Bezoeker koppelen</ion-label>
+                <ion-checkbox name="changeBoatUser" [value]="changeBoatUser"></ion-checkbox>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+        </form>
+        <ion-button *ngIf="actie === 'Wijzigen'" (click)="update()" text-center>Wijzigen</ion-button>
+        <ion-button *ngIf="actie !== 'Wijzigen'" (click)="save()" text-center>Opslaan</ion-button>
+      </ion-card>
+
+      <ion-item>
+        <span class="ion-label">Abonnement</span>
+        <ion-checkbox name="abo" value="0"></ion-checkbox>
+      </ion-item>
+
     </mat-expansion-panel>
 
     <mat-expansion-panel [expanded]="!isExpanded"
