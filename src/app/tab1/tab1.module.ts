@@ -7,6 +7,7 @@ import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TooltipsModule } from 'ionic4-tooltips';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { IonicSelectableModule } from 'ionic-selectable';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     Tab1PageRoutingModule,
     NgxDatatableModule,
     TooltipsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    IonicSelectableModule
   ],
   declarations: [Tab1Page],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

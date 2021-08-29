@@ -10,4 +10,5 @@ export class User {
   thuishaven: string;
   opmerking: string;
   boot: Boot; 
+  naamCompleet: string;
 }

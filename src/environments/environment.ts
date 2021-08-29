@@ -24,5 +24,7 @@ export const environment = {
   botterVisitUpdateUrl: 'https://paardrijvakantie.com/randmeren/API/updateBotterVisit.php',
   botenLijstUrl: 'https://paardrijvakantie.com/randmeren/API/getBoats.php',
   usersLijstUrl: 'https://paardrijvakantie.com/randmeren/API/getUsers.php',
+  botenTypesLijstUrl: 'https://paardrijvakantie.com/randmeren/API/getBoatTypes.php',
+  addOrUpdateUserBoatUrl: 'https://paardrijvakantie.com/randmeren/API/addUserBoatAbo.php',
 
 };

@@ -5,6 +5,8 @@ import { environment } from '../../environments/environment';
 import { Abonnement } from '../model/Abonnement';
 import { User } from '../model/user';
 import { Boot } from '../model/boot';
+import { UserBoot } from '../model/user-boot';
+import { BootType } from '../model/boot-type';
 import { Result } from '../model/result';
 
 @Injectable()
@@ -41,4 +43,18 @@ export class AboService {
     return this.http.get<User[]>(environment.usersLijstUrl);
   }
 
+  /**
+  * Get all boatTypes
+  */
+  getAllBoatTypes(): Observable<BootType[]> {
+    return this.http.get<BootType[]>(environment.botenTypesLijstUrl);
+  }
+
+  /**
+  * Save or update user and / or boat data
+  */
+  save(userBoot: UserBoot): Observable<Result> {
+    return this.http.post<Result>(environment.addOrUpdateUserBoatUrl, userBoot);
+  }
+  
 } 

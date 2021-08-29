@@ -5,4 +5,5 @@ export class Boot {
   naamBoot: string;
   lengteBoot: number;
   typeBoot: BootType; 
+  bootCompleet: string;
 }

@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { IonicSelectableModule } from 'ionic-selectable';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AppRoutingModule, 
     HttpClientModule, 
     NgxDatatableModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    IonicSelectableModule
   ],
   providers: [AboService,
     BotterService, 

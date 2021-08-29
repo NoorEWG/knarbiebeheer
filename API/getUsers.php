@@ -14,7 +14,15 @@
     telefoon_nummer AS telefoon,
     email, 
     thuishaven,
-    opmerking
+    opmerking,
+    CASE
+    	WHEN tussenvoegsel IS NULL AND voorletters IS NOT NULL THEN
+    		CONCAT(voorletters, ' ', naam) 
+    	WHEN tussenvoegsel IS NULL AND voorletters IS NULL THEN 
+    	    naam
+    	ELSE
+    	    CONCAT(voorletters, ' ', tussenvoegsel, ' ', naam)
+    END AS naamCompleet
     FROM `randmeren_users`   
     ORDER BY naam";
     $res=$bdd->prepare($sql);

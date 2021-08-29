@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { AboService} from './abo.service';
 import { ModalPopoverPage } from './modal-popover.page';
 import { Storage } from '@ionic/storage';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { User } from '../model/user';
 import { Boot } from '../model/boot';
+import { BootType } from '../model/boot-type';
+import { UserBoot } from '../model/user-boot';
+
 
 @Component({
   selector: 'app-tab1',
@@ -30,8 +33,8 @@ export class Tab1Page {
   public actionUser: boolean = false;
   public actionBoat: boolean = false;
   public abo: boolean = false;
-  public user: User;
-  public boat: Boot;
+  public user: User = new User();
+  public boat: Boot = new Boot();
   public createBoat: boolean = false;
   public changeUserBoat: boolean = false;
   public createUser: boolean = false;
@@ -40,11 +43,16 @@ export class Tab1Page {
   public showBoatForm: boolean = false;
   public showUserList: boolean = false;
   public showBoatList: boolean = false;
+  public showAbo: boolean = false;
   public boatList: Boot[];
   public userList: User[];
+  public boatTypeList: BootType[];
+  public message: string = "";
+  public userBoat: UserBoot;
   
   constructor(
     private aboService: AboService,
+    private toastCtrl: ToastController,
     private storage: Storage,
     private modalCtrl: ModalController) {}
 
@@ -71,11 +79,16 @@ export class Tab1Page {
       this.columnsWithSearch = ["naam","boot","type"];
     });
 
-    this.user = new User();
-    this.user.voorletters = "EWG";
-    this.boat = new Boot();
-
+    this.aboService.getAllBoatTypes().subscribe(results => {
+      this.boatTypeList = results;
+    });
+    this.userBoat = new UserBoot();
+    this.userBoat.user = this.user;
+    this.userBoat.boat = this.boat;
+    this.userBoat.year = this.chosenYear;
+    this.setUserBoatSaveUpdate(false, false, false, false, false, false);
     this.setUserBoatForm();
+    this.setUserBoat();
   } 
 
   async initModal(abonnementsHouder) {
@@ -141,7 +154,7 @@ export class Tab1Page {
       telefoon: new FormControl(this.user.telefoon),
       email: new FormControl(this.user.email),
       thuishaven: new FormControl(this.user.thuishaven),
-      opmmerking: new FormControl(this.user.opmerking)
+      opmerking: new FormControl(this.user.opmerking)
     });
     this.boatForm = new FormGroup({
       naamBoot: new FormControl(this.boat.naamBoot),
@@ -150,24 +163,54 @@ export class Tab1Page {
     });
   }
 
+  setUserBoatSaveUpdate(saveAbo: boolean, saveUser: boolean, saveBoat: boolean, updateAbo: boolean, updateUser: boolean, updateBoat: boolean) {
+    this.userBoat.saveAbo = saveAbo;
+    this.userBoat.saveUser = saveUser;
+    this.userBoat.saveBoat = saveBoat;
+    this.userBoat.updateAbo = updateAbo;
+    this.userBoat.updateUser = updateUser;
+    this.userBoat.updateBoat = updateBoat;
+  }
+
+  setUserBoat() {
+    this.userBoat.user = this.userForm.value;
+    this.userBoat.boat = this.boatForm.value;
+  }
+
   addUser() {
+    this.boat = new Boot();
+    this.user = new User();
+    this.setUserBoatForm();
+    this.setUserBoatSaveUpdate(false,true,false,false,false,false);
     this.showUserForm = true;
+    this.showUserList = false;
     this.showBoatForm = false;
     this.showBoatList = false;
-    this.showUserList = false;
+    this.showAbo = true;
+  }
+
+  getUser(event) {
+    this.user = event.value;
+    this.boat = new Boot();
+    this.setUserBoatForm();
+    this.setUserBoatSaveUpdate(false,false,false,false,true,false);
+    this.showUserForm = true;
+    this.showUserList = true;
+    this.showBoatForm = false;
+    this.showBoatList = false;
+    this.showAbo = true;
+
   }
 
   updateUser() {
     this.showUserForm = false;
     this.showBoatForm = false;
     this.showBoatList = false;
+    this.showAbo = true;
     this.aboService.getAllUsers().subscribe(results => {
       this.userList = results;
       this.showUserList = true;
     });
-    // TODO
-    // get all users with een option list
-    // on click on one => this.showUserForm and hide the list;
   }
 
   addUserSubscription() {
@@ -175,28 +218,43 @@ export class Tab1Page {
     this.showBoatForm = false;
     this.showBoatList = false;
     this.showUserList = false;
-    // TODO
+    this.showAbo = true;
   }
 
   addBoat() {
-    this.showBoatForm = true;
+    this.boat = new Boot();
+    this.user = new User();
+    this.setUserBoatForm();
+    this.setUserBoatSaveUpdate(false,false,true,false,false,false);
     this.showUserForm = false;
+    this.showBoatForm = true;
     this.showBoatList = false;
     this.showUserList = false;
-   
+    this.showAbo = false; 
   }
+
+  getBoat(event) {
+    event.value.typeBoot =  this.boatTypeList.filter(v => v.id = event.value.id)[0];
+    this.boat = event.value;
+    this.user = new User();
+    this.setUserBoatForm();
+    this.setUserBoatSaveUpdate(false,false,false,false,false,true);
+    this.showUserForm = false;
+    this.showUserList = false;
+    this.showBoatForm = true;
+    this.showBoatList = true;
+    this.showAbo = false;
+   }
 
   updateBoat() {
     this.showUserForm = false;
     this.showBoatForm = false;
     this.showUserList = false;
+    this.showAbo = false;
     this.aboService.getAllBoats().subscribe(results => {
       this.boatList = results;
       this.showBoatList = true;
     });
-    // TODO
-    // get all boats with een option list
-    // on click on one => this.showBoatForm and hide the list;
   }
 
   addAdmin() {
@@ -206,6 +264,43 @@ export class Tab1Page {
     // and add admin = yes
   }
 
+  cancel() {
+    this.user = new User();
+    this.boat = new Boot();
+    this.setUserBoatForm();
+    this.setUserBoatSaveUpdate(false,false,false,false,false,false);
+    this.showUserForm = false;
+    this.showUserList = false;
+    this.showBoatForm = false;
+    this.showBoatList = false;
+    this.showAbo = false;
+  }
+
+  save() {
+    this.setUserBoat();
+    console.log(JSON.stringify(this.userBoat));
+    this.aboService.save(this.userBoat).subscribe(result => {
+      this.user = new User();
+      this.boat = new Boot();
+      this.setUserBoatForm();
+      this.showUserForm = false;
+      this.showUserList = false;
+      this.showBoatForm = false;
+      this.showBoatList = false;
+      this.message = result.message;
+      this.presentToast();
+    });
+
+  }
+  
+  async presentToast() {
+    const toast = await this.toastCtrl.create({
+      message: this.message,
+      duration: 3500,
+      position: 'middle',  
+    });
+    toast.present();
+  }
 
 
 }

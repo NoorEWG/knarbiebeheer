@@ -1,5 +1,10 @@
 $font-size: 12px;
 
+.ion-label {
+    min-width: 48%;
+    width: 48%;
+}
+
 ::ng-deep .datatable-header-cell-template-wrap {
     font-size: $font-size;
     font-weight: bold;
