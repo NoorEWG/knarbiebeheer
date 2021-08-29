@@ -43,17 +43,18 @@
           $array['message'] = "Er bestaat al een persoon met exact dezelfde voorletters en naam";
         } 
         if (!$user_id && $save_user) {
-            $sql = "INSERT INTO randmeren_users (`voorletters`, `tussenvoegsel`, `naam`, `telefoon`, `email`, `thuishaven`)
-            VALUES (:voorletters,:tussenvoegsel,:naam,:telefoon,:email,:thuishaven)";
+            $sql = "INSERT INTO randmeren_users (`voorletters`, `tussenvoegsel`, `naam`, `telefoon`, `email`, `thuishaven`, `opmerking`)
+            VALUES (:voorletters,:tussenvoegsel,:naam,:telefoon,:email,:thuishaven,:opmerking)";
             $res=$bdd->prepare($sql);
             $res->bindParam(':voorletters', $user['voorletters']);
             $res->bindParam(':tussenvoegsel', $user['tussenvoegsel']);
             $res->bindParam(':naam', $user['naam']); 
+            $res->bindParam(':telefoon', $user['telefoon']); 
             $res->bindParam(':email', $user['email']);   
             $res->bindParam(':thuishaven', $user['thuishaven']);    
-            // $success = $res->execute();  
-            // $user_id = $bdd->lastInsertId();
-            $success == true;
+            $res->bindParam(':opmerking', $user['opmerking']);    
+            $success = $res->execute();  
+            $user_id = $bdd->lastInsertId();
 
             if($success == true) {
                 $array['message'] = "De persoonsgegevens van " . $decoded['voorletters'] . " " . $decoded['naam'] ." zijn opgeslagen.";
@@ -72,14 +73,13 @@
             $res->bindParam(':email', $user['email']);   
             $res->bindParam(':thuishaven', $user['thuishaven']);    
             $res->bindParam(':id', $user_id['id']);
-            // $success = $res->execute();  
-            $success = true;
+            $success = $res->execute();  
             if($success == true) {
                 $voorletters = $user['voorletters'] == null ?  "" : $user['voorletters'] . " ";
                 $tussenvoegsel = $user['tussenvoegsel'] == null ?  "" : $user['tussenvoegsel'] . " ";
                 $array['message'] = "De persoonsgegevens van " . $voorletters . $tussenvoegsel . $user['naam'] ." zijn bijgewerkt.";
             } else {
-                $array['errorCode'] = 2;
+                $array['errorCode'] = 3;
                 $array['message'] = "Het is nu niet mogelijk om de persoonsgegevens bij te werken, probeer het later nogmaals.";
             }
         } 
@@ -109,44 +109,41 @@
             $res->bindParam(':naam_boot', $boat['naamBoot']);
             $res->bindParam(':lengte_boot', $boat['lengteBoot']);
             $res->bindParam(':type_boot', $boat['typeBoot']);   
-            // $success = $res->execute();  
-            // $boat_id = $bdd->lastInsertId(); 
-            $success = true;
-            $boat_id = 111111111;
+            $success = $res->execute();  
+            $boat_id = $bdd->lastInsertId(); 
             if ($success == true) {
                 $array['message'] += "\nDe bootgegevens van de boot " . $boat['naamBoot'] . " zijn opgeslagen.";
                 $sql = "UPDATE randmeren_users SET boot_id = :boot_id WHERE id = :id";
                 $res=$bdd->prepare($sql);
                 $res->bindParam(':boot_id', $boat_id['id']);
                 $res->bindParam(':id', $user_id['id']);
-                // $res->execute();
+                $res->execute();
             } else {
-                $array['errorCode'] = 3;
+                $array['errorCode'] = 5;
                 $array['message'] = "Het is nu niet mogelijk om de bootgegevens te registreren, probeer het later nogmaals.";
             }
         }    
 
         if ($boat_id && $update_boat) {
-
+            $type_boat = $boat['typeBoot'];
+            var_dump($type_boat);
             $sql = "UPDATE randmeren_boten SET `naam_boot` = :naam_boot, `lengte_boot` = :lengte_boot, 
             `type_boot` = :type_boot)";
             $res=$bdd->prepare($sql);
             $res->bindParam(':naam_boot', $boat['naamBoot']);
             $res->bindParam(':lengte_boot', $boat['lengteBoot']);
             $res->bindParam(':type_boot', $boat['typeBoot']['id']);   
-            // $success = $res->execute();  
-            // $boat_id = $bdd->lastInsertId(); 
-            $success = true;
-            $boat_id = 111111111;
+            $success = $res->execute();  
+            $boat_id = $bdd->lastInsertId(); 
             if ($success == true) {
                 $array['message'] .= "De bootgegevens van de boot " . $boat['naamBoot'] . " zijn bijgewerkt.";
                 $sql = "UPDATE randmeren_users SET boot_id = :boot_id WHERE id = :id";
                 $res=$bdd->prepare($sql);
                 $res->bindParam(':boot_id', $boat_id);
                 $res->bindParam(':id', $user_id);
-                // $res->execute();
+                $res->execute();
             } else {
-                $array['errorCode'] = 3;
+                $array['errorCode'] = 6;
                 $array['message'] = "Het is nu niet mogelijk om de bootgegevens bij te werken, probeer het later nogmaals.";
             }
         }    
@@ -158,7 +155,7 @@
         $res->bindParam(':abo', $user_id);
         $res->bindParam(':jaar', $jaar);
         $res->bindParam(':boot_id', $boat_id);   
-        // $success = $res->execute();  
+        $success = $res->execute();  
     }
 
     if ($update_abo == true && $boat_id != null && $user_id != null) {

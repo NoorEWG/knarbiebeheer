@@ -213,6 +213,14 @@ export class Tab1Page {
     });
   }
 
+  setAbo(event) {
+    if (event.returnValue) {
+      this.userBoat.saveAbo = true;
+    } else {
+      this.userBoat.saveAbo = false;
+    }
+  }
+
   addUserSubscription() {
     this.showUserForm = false;
     this.showBoatForm = false;
@@ -257,6 +265,24 @@ export class Tab1Page {
     });
   }
 
+  openBoatForm(event) {
+    console.log(event.returnValue);
+    if (event.returnValue) {
+      this.showBoatForm = true;
+    } else {
+      this.boat = null;
+      this.showBoatForm = false;
+    }
+  }
+
+  openBoatSelect(event) {
+    if (event.returnValue) {
+      this.showBoatList = true;
+    } else {
+      this.showBoatList = false;
+    }
+  }
+
   addAdmin() {
     // TODO
     // get all users with een option list
@@ -279,6 +305,7 @@ export class Tab1Page {
   save() {
     this.setUserBoat();
     console.log(JSON.stringify(this.userBoat));
+    this.userBoat.saveAbo = this.abo;
     this.aboService.save(this.userBoat).subscribe(result => {
       this.user = new User();
       this.boat = new Boot();
