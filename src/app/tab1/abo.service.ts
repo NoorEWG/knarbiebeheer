@@ -56,5 +56,18 @@ export class AboService {
   save(userBoot: UserBoot): Observable<Result> {
     return this.http.post<Result>(environment.addOrUpdateUserBoatUrl, userBoot);
   }
+
+  /**
+  * Find current user by boatId
+  */
+  findUserByBoat(boot: Boot): Observable<Result> {
+    return this.http.get<Result>(environment.getUserByBoatUrl + boot.id);
+  }
   
+  /**
+  * Add abonnement next year
+  */
+  addAboNextYear(boatId: number, userId: number): Observable<Boolean> {
+    return this.http.get<Boolean>(environment.addAboNextYearUrl + boatId + "&userId=" + userId);
+  }
 } 

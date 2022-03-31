@@ -160,8 +160,19 @@
                 <ion-checkbox name="changeBoatUser" [value]="changeBoatUser"></ion-checkbox>
               </ion-item>
             </ion-col>
+
+            <ion-col>
+              <ion-item>
+                <ion-label>Abonnement toevoegen</ion-label>
+                <ion-checkbox name="abonnementUser" [value]="abonnementUser" (ionChange)="findCurrentUser()"></ion-checkbox>
+              </ion-item>
+            </ion-col>
           </ion-row>
-          
+
+          <ion-item>
+            <span class="ion-label">Eigenaar</span>
+            <span>{{ user.naam }}</span>
+          </ion-item>
 
         </form>
         
@@ -169,6 +180,7 @@
       </ion-card>
       <ion-card>
         <ion-button (click)="save()" text-center>Opslaan</ion-button>
+        <ion-button (click)="saveAbonnement()" text-center>Opslaan abonnement</ion-button>
         <ion-button (click)="cancel()" text-center>Terug</ion-button>
       </ion-card>
     

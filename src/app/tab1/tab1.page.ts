@@ -302,6 +302,23 @@ export class Tab1Page {
     this.showAbo = false;
   }
 
+  findCurrentUser() {
+    this.aboService.findUserByBoat(this.boat).subscribe(result => {
+      this.user = result[0];
+    });
+  }
+
+  saveAbonnement() {
+    if (this.boat.id !== null && this.user.id !== null) {
+      this.aboService.addAboNextYear(this.boat.id, this.user.id).subscribe(result => {
+        // TODO => toast message
+        if(result) {
+          console.log("Save abonnement heeft als result: " + result);
+        }
+      });
+    }
+  }
+
   save() {
     this.setUserBoat();
     console.log(JSON.stringify(this.userBoat));

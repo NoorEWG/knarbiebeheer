@@ -1,0 +1,69 @@
+$font-size: 12px;
+
+::ng-deep .datatable-header-cell-template-wrap {
+    font-size: $font-size;
+    font-weight: bold;
+}
+
+::ng-deep .datatable-body-cell-label {
+    font-size: 10px;
+}
+
+::ng-deep mat-accordion {
+    font-size: $font-size;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 0; 
+}
+
+::ng-deep mat-expansion-panel .mat-expansion-panel {
+    font-size: $font-size;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+
+::ng-deep ion-card {
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 0; 
+}
+
+::ng-deep ion-card-header {
+    margin-left: 4px;
+    margin-right: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 0; 
+    font-weight: bold;
+}
+
+
+::ng-deep .mat-expansion-panel-header {
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px; 
+}
+
+
+::ng-deep  .mat-expansion-panel-header-title {
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 14px; 
+}
+
+::ng-deep .mat-expansion-panel-body, .mat-expansion-panel-header-description {
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px; 
+}

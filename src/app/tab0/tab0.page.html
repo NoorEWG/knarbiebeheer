@@ -1,0 +1,128 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Invoer bbq / overnachtingen {{ chosenYear }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content [fullscreen]="true">
+  
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Overzicht BBQ / overnachtingen {{ chosenYear }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-toast>
+    <div *ngIf="detail !== null">
+      <div>{{ detail }}</div>
+    </div>
+  </ion-toast>
+  <mat-accordion>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Toevoegen bbq / overnachtingen
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      
+      <ion-card>
+        <form [formGroup]="bezoekForm" novalidate *ngIf="showBezoekForm">
+              
+          <ion-item>
+            <span class="ion-label">Datum</span>
+            <ion-input name="datum" formControlName="datum" type="datum"></ion-input>
+          </ion-item>
+      
+          <ion-item>
+            <span class="ion-label">Personen</span>
+            <ion-input name="persons" formControlName="persons" type="number"></ion-input>
+          </ion-item>
+          
+          <ion-item>
+            <span class="ion-label">Lengte boot</span>
+            <ion-input name="lengthBoat" formControlName="lengthBoat" type="number"></ion-input>
+          </ion-item>
+      
+          <ion-item>
+            <span class="ion-label">Tent</span>
+            <ion-input name="tents" formControlName="tents" type="number"></ion-input>
+          </ion-item>
+      
+          <ion-item>
+            <span class="ion-label">Eiland</span>
+            <ion-input name="eiland" formControlName="eiland" type="text"></ion-input>
+          </ion-item>
+        </form>
+        <ion-button (click)="save()" text-center>Opslaan</ion-button>
+        <ion-button (click)="cancel()" text-center>Terug</ion-button>
+      </ion-card>
+
+    </mat-expansion-panel>
+    
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Overzicht bbq / overnachtingen
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ion-item>
+        <ion-input
+        [(ngModel)] = "dateSearch"
+        type="date"
+        placeholder="Zoek per datum"
+        (change)="filterDatatable($event, 'datum')"><ion-icon name="search"></ion-icon></ion-input>
+        <ion-icon name="chevron-back-outline" (click)="changeDate(1, false)"></ion-icon>
+        <ion-icon name="chevron-forward-outline" (click)="changeDate(1, true)"></ion-icon>  
+      </ion-item>
+        <ngx-datatable
+          class="material"
+          (activate)="onActivate($event)"
+          [limit]="10" 
+          [rows]="rows" 
+          [rowHeight]="35" 
+          [columnMode]="'force'" 
+          [sortType]="'multi'" 
+          [messages]="{emptyMessage: 'Er zijn geen gegevens voor deze datum'}"  
+          [headerHeight]="40" 
+          [footerHeight]="60">
+      
+        <ngx-datatable-column name="persons">
+          <ng-template let-column="column" ngx-datatable-header-template>Personen</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.persons}}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="lengthBoat">
+          <ng-template let-column="column" ngx-datatable-header-template>Lengte boot</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.lengthBoat}} meter
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="tents">
+          <ng-template let-column="column" ngx-datatable-header-template>Tent</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.tents}} 
+          </ng-template>
+        </ngx-datatable-column> 
+
+        <ngx-datatable-column name="datum">
+          <ng-template let-column="column" ngx-datatable-header-template>Datum</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.datum}} 
+          </ng-template>
+        </ngx-datatable-column> 
+
+      </ngx-datatable>     
+    </mat-expansion-panel>
+
+  </mat-accordion>
+  
+</ion-content>

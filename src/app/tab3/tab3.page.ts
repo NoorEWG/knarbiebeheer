@@ -117,7 +117,6 @@ export class Tab3Page {
   }
 
   changeDate(value, add) {
-    console.log("in change date, value: " + value);
     let oldDate = moment(this.dateSearch);
     let newDate;
     if ( add === true) {
