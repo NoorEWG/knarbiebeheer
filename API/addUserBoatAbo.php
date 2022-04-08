@@ -177,10 +177,10 @@
             $res->bindParam(':boot_id', $id_boat);   
             $success = $res->execute();  
             if ($success == true) {
-            $$array['message'] =  "Het abonnement is opgeslagen.";
+              $array['message'] =  "Het abonnement is opgeslagen.";
             } else {
-            $array['errorCode'] = 6;
-            $array['message'] = "Het is nu niet mogelijk om het abonnement op te slaan, probeer het later nogmaals.";  
+              $array['errorCode'] = 6;
+              $array['message'] = "Het is nu niet mogelijk om het abonnement op te slaan, probeer het later nogmaals.";  
             }
         }
     }
