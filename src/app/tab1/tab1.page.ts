@@ -191,15 +191,17 @@ export class Tab1Page {
 
   getUser(event) {
     this.user = event.value;
-    this.boat = new Boot();
-    this.setUserBoatForm();
+    console.log(JSON.stringify(this.user));
     this.setUserBoatSaveUpdate(false,false,false,false,true,false);
-    this.showUserForm = true;
-    this.showUserList = true;
-    this.showBoatForm = false;
-    this.showBoatList = false;
-    this.showAbo = true;
-
+    this.aboService.getBoatByUserId(this.user.bootId).subscribe(results => {
+      this.boat = results;
+      this.setUserBoatForm();
+      this.showUserForm = true;
+      this.showUserList = true;
+      this.showBoatForm = true;
+      this.showBoatList = false;
+      this.showAbo = true;
+    });
   }
 
   updateUser() {
@@ -215,9 +217,9 @@ export class Tab1Page {
 
   setAbo(event) {
     if (event.returnValue) {
-      this.userBoat.saveAbo = true;
+      this.abo = true;
     } else {
-      this.userBoat.saveAbo = false;
+      this.abo = false;
     }
   }
 
@@ -304,8 +306,11 @@ export class Tab1Page {
 
   save() {
     this.setUserBoat();
-    console.log(JSON.stringify(this.userBoat));
     this.userBoat.saveAbo = this.abo;
+    if (this.abo) {
+      this.userBoat.updateUser = false;
+    }
+    
     this.aboService.save(this.userBoat).subscribe(result => {
       this.user = new User();
       this.boat = new Boot();
@@ -315,6 +320,7 @@ export class Tab1Page {
       this.showBoatForm = false;
       this.showBoatList = false;
       this.message = result.message;
+      console.log(JSON.stringify(result));
       this.presentToast();
     });
 

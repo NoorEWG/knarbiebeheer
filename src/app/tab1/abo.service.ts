@@ -57,4 +57,11 @@ export class AboService {
     return this.http.post<Result>(environment.addOrUpdateUserBoatUrl, userBoot);
   }
   
+   /**
+  * Find boat by user
+  */
+  getBoatByUserId(id: number): Observable<Boot> {
+    return this.http.get<Boot>(environment.findBoatByUserUrl + id );
+  }
+    
 } 

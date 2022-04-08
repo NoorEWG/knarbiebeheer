@@ -80,16 +80,6 @@
 
           <ion-row>
             <ion-col>
-              <ion-item *ngIf="showAbo">
-                <span class="ion-label">Abonnement</span>
-                <ion-checkbox (ionChange)="setAbo($event)"></ion-checkbox>
-              </ion-item>
-            </ion-col>
-            <ion-col></ion-col>
-          </ion-row>
-
-          <ion-row>
-            <ion-col>
               <ion-item>
                 <span class="ion-label">Boot toevoegen</span>
                 <ion-checkbox (ionChange)="openBoatForm($event)"></ion-checkbox>
@@ -161,9 +151,17 @@
               </ion-item>
             </ion-col>
           </ion-row>
-          
-
+        
         </form>
+        <ion-row>
+          <ion-col>
+            <ion-item *ngIf="showAbo">
+              <span class="ion-label">Abonnement</span>
+              <ion-checkbox name="abo" (ionChange)="setAbo($event)"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
         
         </ion-card-body>
       </ion-card>

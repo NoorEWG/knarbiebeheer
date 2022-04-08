@@ -26,5 +26,5 @@ export const environment = {
   usersLijstUrl: 'https://paardrijvakantie.com/randmeren/API/getUsers.php',
   botenTypesLijstUrl: 'https://paardrijvakantie.com/randmeren/API/getBoatTypes.php',
   addOrUpdateUserBoatUrl: 'https://paardrijvakantie.com/randmeren/API/addUserBoatAbo.php',
-
+  findBoatByUserUrl: 'https://paardrijvakantie.com/randmeren/API/findBoatByUser.php?boatid=',
 };

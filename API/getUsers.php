@@ -15,6 +15,7 @@
     email, 
     thuishaven,
     opmerking,
+    boot_id AS bootId,
     CASE
     	WHEN tussenvoegsel IS NULL AND voorletters IS NOT NULL THEN
     		CONCAT(voorletters, ' ', naam) 
