@@ -78,7 +78,7 @@
             <ion-input name="opmerking" formControlName="opmerking" type="text"></ion-input>
           </ion-item>
 
-          <ion-row>
+          <ion-row *ngIf="boat.id === null">
             <ion-col>
               <ion-item>
                 <span class="ion-label">Boot toevoegen</span>
@@ -132,11 +132,11 @@
           <ion-item>
             <span class="ion-label">Type boot</span>      
             <ion-select name="typeBoot" formControlName="typeBoot">
-              <ion-select-option *ngFor="let bt of boatTypeList" [value]="bt">{{ bt.type }}</ion-select-option>
+              <ion-select-option *ngFor="let bt of boatTypeList" [value]="bt.id">{{ bt.type }}</ion-select-option>
             </ion-select>
           </ion-item>
 
-          <ion-row>
+          <ion-row *ngIf="user.id === null">
             <ion-col>
               <ion-item>
                 <ion-label>Persoon toevoegen</ion-label>

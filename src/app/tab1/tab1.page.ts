@@ -148,15 +148,18 @@ export class Tab1Page {
 
   setUserBoatForm() {
     this.userForm = new FormGroup({
+      id: new FormControl(this.user.id),
       voorletters: new FormControl(this.user.voorletters),
       tussenvoegsel: new FormControl(this.user.tussenvoegsel),
       naam: new FormControl(this.user.naam),
       telefoon: new FormControl(this.user.telefoon),
       email: new FormControl(this.user.email),
       thuishaven: new FormControl(this.user.thuishaven),
-      opmerking: new FormControl(this.user.opmerking)
+      opmerking: new FormControl(this.user.opmerking),
+      bootId: new FormControl(this.user.bootId),
     });
     this.boatForm = new FormGroup({
+      id: new FormControl(this.boat.id),
       naamBoot: new FormControl(this.boat.naamBoot),
       lengteBoot: new FormControl(this.boat.lengteBoot),
       typeBoot: new FormControl(this.boat.typeBoot)
@@ -249,8 +252,8 @@ export class Tab1Page {
     this.user = new User();
     this.setUserBoatForm();
     this.setUserBoatSaveUpdate(false,false,false,false,false,true);
-    this.showUserForm = false;
-    this.showUserList = false;
+    this.showUserForm = true;
+    this.showUserList = true;
     this.showBoatForm = true;
     this.showBoatList = true;
     this.showAbo = false;
@@ -268,7 +271,6 @@ export class Tab1Page {
   }
 
   openBoatForm(event) {
-    console.log(event.returnValue);
     if (event.returnValue) {
       this.showBoatForm = true;
     } else {
@@ -279,7 +281,13 @@ export class Tab1Page {
 
   openBoatSelect(event) {
     if (event.returnValue) {
-      this.showBoatList = true;
+      this.aboService.getAllBoats().subscribe(results => {
+        this.boatList = results;
+        this.boat = new Boot();
+        this.showBoatList = true;
+        this.showBoatForm = false;
+        this.showUserForm = true;
+      });
     } else {
       this.showBoatList = false;
     }
@@ -307,10 +315,23 @@ export class Tab1Page {
   save() {
     this.setUserBoat();
     this.userBoat.saveAbo = this.abo;
-    if (this.abo) {
-      this.userBoat.updateUser = false;
+    if (this.userBoat.boat.id >= 1) {
+      this.userBoat.updateBoat = true;
+      this.userBoat.saveBoat = false;
+    } else {
+      this.userBoat.updateBoat = false;
+      this.userBoat.saveBoat = true;
     }
     
+    if (this.userBoat.user.id >= 1) {
+      this.userBoat.updateUser = true;
+      this.userBoat.saveUser = false;
+    } else {
+      this.userBoat.updateUser = false;
+      this.userBoat.saveUser = true;
+    }
+
+    console.log(JSON.stringify(this.userBoat));
     this.aboService.save(this.userBoat).subscribe(result => {
       this.user = new User();
       this.boat = new Boot();
