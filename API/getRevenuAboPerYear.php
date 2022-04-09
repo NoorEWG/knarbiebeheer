@@ -42,7 +42,7 @@
     b.naam_boot AS boatName 
     FROM `randmeren_abo_bezoek` ab
     LEFT JOIN `randmeren_boten` b ON ab.boot_id = b.id
-    AND YEAR(ab.visit_date) = :jaar
+    WHERE YEAR(ab.visit_date) = :jaar
     GROUP BY boot_id;";
     $res=$bdd->prepare($sql);
     $res->bindParam(':jaar', $year, PDO::PARAM_INT);
@@ -57,7 +57,7 @@
     DATE_FORMAT(ab.visit_date, '%d-%m-%Y') AS datum
     FROM `randmeren_abo_bezoek` ab
     LEFT JOIN `randmeren_boten` b ON ab.boot_id = b.id
-    AND YEAR(ab.visit_date) = :jaar
+    WHERE YEAR(ab.visit_date) = :jaar
     ORDER BY b.naam_boot, ab.visit_date";
     $res=$bdd->prepare($sql);
     $res->bindParam(':jaar', $year, PDO::PARAM_INT);
@@ -68,7 +68,7 @@
     $sql = "SELECT ROUND(COUNT(*) * b.lengte_boot * :price_per_meter, 2) AS revenuPerIsland, ab.island 
     FROM `randmeren_abo_bezoek` ab
     LEFT JOIN `randmeren_boten` b ON ab.boot_id = b.id
-    AND YEAR(ab.visit_date) = :jaar
+    WHERE YEAR(ab.visit_date) = :jaar
     GROUP BY ab.island;";
     $res=$bdd->prepare($sql);
     $res->bindParam(':jaar', $year, PDO::PARAM_INT);
@@ -79,7 +79,7 @@
     $sql = "SELECT ROUND(COUNT(*) * b.lengte_boot * :price_per_meter, 2) AS revenuTotal 
     FROM `randmeren_abo_bezoek` ab
     LEFT JOIN `randmeren_boten` b ON ab.boot_id = b.id
-    AND YEAR(ab.visit_date) = :jaar;";
+    WHERE YEAR(ab.visit_date) = :jaar;";
     $res=$bdd->prepare($sql);
     $res->bindParam(':jaar', $year, PDO::PARAM_INT);
     $res->bindParam(':price_per_meter', $calc_data[0]['price_per_meter'], PDO::PARAM_INT);
