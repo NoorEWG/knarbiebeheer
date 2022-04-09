@@ -146,7 +146,7 @@
             $res->bindParam(':id_boot', $boat_id['id']);
             $res->bindParam(':naam_boot', $boat['naamBoot']);
             $res->bindParam(':lengte_boot', $boat['lengteBoot']);
-            $res->bindParam(':type_boot', $boat['typeBoot']['id']);   
+            $res->bindParam(':type_boot', $boat['typeBoot']);   
             $success = $res->execute();  
             $boat_id = $bdd->lastInsertId(); 
             if ($success == true) {
