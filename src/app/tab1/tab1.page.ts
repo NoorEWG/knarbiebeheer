@@ -194,7 +194,6 @@ export class Tab1Page {
 
   getUser(event) {
     this.user = event.value;
-    console.log(JSON.stringify(this.user));
     this.setUserBoatSaveUpdate(false,false,false,false,true,false);
     this.aboService.getBoatByUserId(this.user.bootId).subscribe(results => {
       this.boat = results;
@@ -331,7 +330,6 @@ export class Tab1Page {
       this.userBoat.saveUser = true;
     }
 
-    console.log(JSON.stringify(this.userBoat));
     this.aboService.save(this.userBoat).subscribe(result => {
       this.user = new User();
       this.boat = new Boot();
@@ -341,7 +339,6 @@ export class Tab1Page {
       this.showBoatForm = false;
       this.showBoatList = false;
       this.message = result.message;
-      console.log(JSON.stringify(result));
       this.presentToast();
     });
 

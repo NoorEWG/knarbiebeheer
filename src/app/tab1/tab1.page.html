@@ -132,7 +132,7 @@
           <ion-item>
             <span class="ion-label">Type boot</span>      
             <ion-select name="typeBoot" formControlName="typeBoot">
-              <ion-select-option *ngFor="let bt of boatTypeList" [value]="bt.id">{{ bt.type }}</ion-select-option>
+              <ion-select-option *ngFor="let bt of boatTypeList" [value]="bt.id" [selected]="bt.id === boat.typeBoot.id">{{ bt.type }}</ion-select-option>
             </ion-select>
           </ion-item>
 
