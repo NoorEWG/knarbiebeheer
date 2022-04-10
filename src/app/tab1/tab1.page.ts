@@ -321,7 +321,11 @@ export class Tab1Page {
 
   save() {
     this.setUserBoat();
-    this.userBoat.saveAbo = this.abo;
+    if (this.user.hasAboCurrentYear == "1") {
+      this.userBoat.saveAbo = false;
+    } else {
+      this.userBoat.saveAbo = this.abo;
+    }
     if (this.userBoat.boat.id >= 1) {
       this.userBoat.updateBoat = true;
       this.userBoat.saveBoat = false;
@@ -348,6 +352,8 @@ export class Tab1Page {
       this.showBoatList = false;
       this.message = result.message;
       this.presentToast();
+      this.user = null;
+      this.boat = null;
     });
 
   }
