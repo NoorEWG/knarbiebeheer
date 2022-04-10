@@ -39,8 +39,8 @@ export class AboService {
   /**
   * Get all boats
   */
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(environment.usersLijstUrl);
+  getAllUsers(year: number): Observable<User[]> {
+    return this.http.get<User[]>(environment.usersLijstUrl + year);
   }
 
   /**

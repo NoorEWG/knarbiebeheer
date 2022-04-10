@@ -49,6 +49,8 @@ export class Tab1Page {
   public boatTypeList: BootType[];
   public message: string = "";
   public userBoat: UserBoot;
+  public selectedBootType: BootType;
+  public hasNoAboYet: boolean = true;
   
   constructor(
     private aboService: AboService,
@@ -189,11 +191,12 @@ export class Tab1Page {
     this.showUserList = false;
     this.showBoatForm = false;
     this.showBoatList = false;
-    this.showAbo = true;
+    this.showAbo = false;
   }
 
   getUser(event) {
     this.user = event.value;
+    // console.log(JSON.stringify(this.user));
     this.setUserBoatSaveUpdate(false,false,false,false,true,false);
     this.aboService.getBoatByUserId(this.user.bootId).subscribe(results => {
       this.boat = results;
@@ -211,7 +214,7 @@ export class Tab1Page {
     this.showBoatForm = false;
     this.showBoatList = false;
     this.showAbo = true;
-    this.aboService.getAllUsers().subscribe(results => {
+    this.aboService.getAllUsers(this.chosenYear).subscribe(results => {
       this.userList = results;
       this.showUserList = true;
     });
@@ -246,16 +249,21 @@ export class Tab1Page {
   }
 
   getBoat(event) {
-    event.value.typeBoot =  this.boatTypeList.filter(v => v.id = event.value.id)[0];
     this.boat = event.value;
-    this.user = new User();
+    if (this.user == null && this.user.id == null) {
+      this.user = new User();
+      this.showUserList = false;
+      this.showUserForm = false;
+    } else {
+      this.user.bootId = this.boat.id;
+      this.showUserForm = true;
+      this.showUserList = true;
+    }
+    this.showBoatForm = true;
+    this.showAbo = true;
     this.setUserBoatForm();
     this.setUserBoatSaveUpdate(false,false,false,false,false,true);
-    this.showUserForm = true;
-    this.showUserList = true;
-    this.showBoatForm = true;
-    this.showBoatList = true;
-    this.showAbo = false;
+
    }
 
   updateBoat() {
@@ -329,7 +337,7 @@ export class Tab1Page {
       this.userBoat.updateUser = false;
       this.userBoat.saveUser = true;
     }
-
+    // console.log(JSON.stringify(this.userBoat));
     this.aboService.save(this.userBoat).subscribe(result => {
       this.user = new User();
       this.boat = new Boot();
