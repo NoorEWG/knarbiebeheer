@@ -134,7 +134,7 @@
             </ion-select>
           </ion-item>
 
-          <ion-row *ngIf="user.id === null">
+          <!-- <ion-row *ngIf="user.id === null">
             <ion-col>
               <ion-item>
                 <ion-label>Persoon toevoegen</ion-label>
@@ -148,8 +148,9 @@
                 <ion-checkbox name="changeBoatUser" [value]="changeBoatUser"></ion-checkbox>
               </ion-item>
             </ion-col>
-          </ion-row>
+          </ion-row> -->
         
+        </form>
         <ion-row>
           <ion-col>
             <ion-item *ngIf="showAbo && user != null && user.hasAboCurrentYear === '0'">
@@ -160,11 +161,10 @@
           <ion-col></ion-col>
         </ion-row>
         
-        <!-- </ion-card-body> -->
+        </ion-card-body>
       </ion-card>
       <ion-card>
         <ion-button (click)="save()" text-center>Opslaan</ion-button>
-        <ion-button (click)="saveAbonnement()" text-center>Opslaan abonnement</ion-button>
         <ion-button (click)="cancel()" text-center>Terug</ion-button>
       </ion-card>
     
