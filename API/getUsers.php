@@ -7,7 +7,7 @@
     $year = $_GET["year"];
 
     $sql = "SELECT 
-    id,
+    ra.id,
 	voorletters, 
     tussenvoegsel, 
     naam,
@@ -15,6 +15,7 @@
     email, 
     thuishaven,
     opmerking,
+    ra.boot_id AS bootId,
     CASE
     	WHEN tussenvoegsel IS NULL AND voorletters IS NOT NULL THEN
     		CONCAT(voorletters, ' ', naam) 
@@ -22,10 +23,18 @@
     	    naam
     	ELSE
     	    CONCAT(voorletters, ' ', tussenvoegsel, ' ', naam)
-    END AS naamCompleet
-    FROM `randmeren_users`   
+    END AS naamCompleet,
+    CASE 
+        WHEN raj.id IS NULL THEN 
+            false
+        ELSE
+            true
+    END AS hasAboCurrentYear              
+    FROM `randmeren_users` ra
+    LEFT JOIN `randmeren_abo_jaar` raj ON ra.id = raj.abo AND raj.jaar = :jaar  
     ORDER BY naam";
     $res=$bdd->prepare($sql);
+    $res->bindParam(':jaar', $year);  
     $res->execute();   
     $data=$res->fetchAll(PDO::FETCH_ASSOC);   
     print json_encode($data);

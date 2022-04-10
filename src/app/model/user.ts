@@ -10,5 +10,7 @@ export class User {
   thuishaven: string;
   opmerking: string;
   boot: Boot; 
+  bootId: number;
+  hasAboCurrentYear: string;
   naamCompleet: string;
 }
