@@ -19,4 +19,12 @@ export class VisitorService {
     return this.http.post<Result>(environment.saveVisitWithoutAboUrl, eilandBezoek);
   }
 
+  /**
+   * Get all visits without a subscription for a specific year
+   */
+   getVisits(year: number): Observable<IslandVisitor[]> {
+    // console.log(JSON.stringify(eilandBezoek));
+    return this.http.get<IslandVisitor[]>(environment.getVisitsWithoutAboUrl + year);
+  }
+
 } 

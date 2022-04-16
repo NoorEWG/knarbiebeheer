@@ -37,6 +37,7 @@ export class Tab0Page {
   ngOnInit(): void {
     this.bezoeker = new IslandVisitor();
     this.chosenDate = new Date().toISOString().split('T')[0];  
+    this.chosenYear = new Date().getFullYear();
     this.setBezoekerForm();
 
     this.storage.get("userName").then((result) => {
@@ -45,17 +46,22 @@ export class Tab0Page {
       this.resetBezoekersForm();
     });
 
-    this.chosenYear = new Date().getFullYear();
+    this.visitorService.getVisits(this.chosenYear).subscribe((result) => {
+      this.rows = result;
+    });
+
+    
     this.dateSearch = new Date().toISOString().split('T')[0];
     this.showBezoekForm = true;
     this.rows = [];
     this.allRows = [];
     this.columns = [
-      { name: 'persons', sortable: false },
-      { name: 'lengthBoat', sortable: false },
-      { name: 'tents', sortable: false },
+      { name: 'visitorsPrice', sortable: false },
+      { name: 'boatPrice', sortable: false },
+      { name: 'tentPrice', sortable: false },
+      { name: 'woodPrice', sortable: false },
+      { name: 'totalPrice', sortable: false },
       { name: 'island', sortable: true },
-      { name: 'datum', sortable: true },
       { name: 'nameBoat', sortable: true },
     ];
   }
@@ -65,6 +71,7 @@ export class Tab0Page {
       datum: new FormControl(this.bezoeker.datum),
       persons: new FormControl(this.bezoeker.persons),
       lengthBoat: new FormControl(this.bezoeker.lengthBoat),
+      wood: new FormControl(this.bezoeker.wood),
       tents: new FormControl(this.bezoeker.tents),
       cashPayment: new FormControl(this.bezoeker.cashPayment),
       island: new FormControl(this.bezoeker.island),
@@ -160,6 +167,7 @@ export class Tab0Page {
     this.bezoeker.datum = this.chosenDate;
     this.bezoeker.persons = 0;
     this.bezoeker.lengthBoat = 0;
+    this.bezoeker.wood = 0;
     this.bezoeker.tents = 0;   
     this.bezoeker.cashPayment = true;
     this.bezoeker.remarks = null;

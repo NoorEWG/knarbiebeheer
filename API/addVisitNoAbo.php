@@ -16,13 +16,14 @@
     $array['errorCode'] = 0;
     $array['message'] = "";
 
-    if ($decoded['persons'] + $decoded['tents'] + $decoded['lengthBoat'] > 0) {
+    if ($decoded['persons'] + $decoded['tents'] + $decoded['lengthBoat'] + $decoded['wood'] > 0) {
 
-        $sql = "INSERT INTO randmeren_visits (`personen`, `lengte_boot`, `tenten`, `eiland`, `datum`, `naam_boot`, `opmerking`, `cash_payment`)
-        VALUES (:personen,:lengte_boot,:tenten,:eiland,:datum,:naam_boot,:opmerking,:cash_payment)";
+        $sql = "INSERT INTO randmeren_visits (`personen`, `lengte_boot`, `hout`, `tenten`, `eiland`, `datum`, `naam_boot`, `opmerking`, `cash_payment`)
+        VALUES (:personen,:lengte_boot,:wood,:tenten,:eiland,:datum,:naam_boot,:opmerking,:cash_payment)";
         $res=$bdd->prepare($sql);
         $res->bindParam(':personen', $decoded['persons']);
         $res->bindParam(':lengte_boot', $decoded['lengthBoat']);
+        $res->bindParam(':wood', $decoded['wood']);
         $res->bindParam(':tenten', $decoded['tents']);
         $res->bindParam(':eiland', $decoded['island']);
         $res->bindParam(':cash_payment', $decoded['cashPayment']);
@@ -40,8 +41,7 @@
         }
     } else {
         $array['errorCode'] = 1;
-        $array['message'] = "Het is niet mogelijk het bezoek op te slaan want noch het aantal personen, noch de lengte van de boot, noch het aantal tenten is ingevuld.";
-
+        $array['message'] = "Het is niet mogelijk het bezoek op te slaan want noch het aantal personen, noch de lengte van de boot, noch de verkoop van hout, noch het aantal tenten is ingevuld.";
     }
     print json_encode($array);  
 

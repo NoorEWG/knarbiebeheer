@@ -16,4 +16,5 @@ export const environment = {
   addAboNextYearUrl: 'https://paardrijvakantie.com/randmeren/API/addAboNextYear.php?boatId=',
   findBoatByUserUrl: 'https://paardrijvakantie.com/randmeren/API/findBoatByUser.php?boatid=',
   saveVisitWithoutAboUrl: 'https://paardrijvakantie.com/randmeren/API/addVisitNoAbo.php',
+  getVisitsWithoutAboUrl: 'https://paardrijvakantie.com/randmeren/API/getVisitsNoAboPerYear.php?year=', 
 };

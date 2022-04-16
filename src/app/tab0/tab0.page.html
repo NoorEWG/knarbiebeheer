@@ -23,7 +23,7 @@
   </ion-toast>
   <mat-accordion>
 
-    <mat-expansion-panel>
+    <mat-expansion-panel expanded="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Toevoegen bbq / overnachtingen
@@ -44,10 +44,15 @@
           </ion-item>
           
           <ion-item>
+            <ion-label>Verkoop hout</ion-label>
+            <ion-input name="wood" formControlName="wood" type="number"></ion-input>
+          </ion-item>
+      
+          <ion-item>
             <ion-label>Lengte boot</ion-label>
             <ion-input name="lengthBoat" formControlName="lengthBoat" type="number"></ion-input>
           </ion-item>
-      
+
           <ion-item>
             <ion-label>Tent</ion-label>
             <ion-input name="tents" formControlName="tents" type="number"></ion-input>
@@ -87,7 +92,7 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Overzicht bbq / overnachtingen
+          Overzicht bezoekers 
         </mat-panel-title>
       </mat-expansion-panel-header>
 
@@ -112,33 +117,54 @@
           [headerHeight]="40" 
           [footerHeight]="60">
       
-        <ngx-datatable-column name="persons">
+        <ngx-datatable-column name="visitorsPrice">
           <ng-template let-column="column" ngx-datatable-header-template>Personen</ng-template>
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{row.persons}}
+            <span *ngIf="row.visitorsPrice && row.visitorsPrice > 0">&euro; {{row.visitorsPrice}}</span>
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="lengthBoat">
-          <ng-template let-column="column" ngx-datatable-header-template>Lengte boot</ng-template>
+        <ngx-datatable-column name="boatPrice">
+          <ng-template let-column="column" ngx-datatable-header-template>Boot</ng-template>
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{row.lengthBoat}} meter
+            <span *ngIf="row.boatPrice && row.boatPrice > 0">&euro; {{row.boatPrice}}</span>
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="tents">
+        <ngx-datatable-column name="woodPrice">
+          <ng-template let-column="column" ngx-datatable-header-template>Hout</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <span *ngIf="row.woodPrice && row.woodPrice > 0">&euro; {{row.woodPrice}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="tentPrice">
           <ng-template let-column="column" ngx-datatable-header-template>Tent</ng-template>
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{row.tents}} 
+            <span *ngIf="row.tentPrice && row.tentPrice > 0">&euro; {{row.tentPrice}}</span>
           </ng-template>
         </ngx-datatable-column> 
 
-        <ngx-datatable-column name="datum">
-          <ng-template let-column="column" ngx-datatable-header-template>Datum</ng-template>
+        <ngx-datatable-column name="totalPrice">
+          <ng-template let-column="column" ngx-datatable-header-template>Totaal</ng-template>
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{row.datum}} 
+            &euro; {{row.totalPrice}} 
           </ng-template>
         </ngx-datatable-column> 
+
+        <ngx-datatable-column name="nameBoat">
+          <ng-template let-column="column" ngx-datatable-header-template>Naam boot</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.nameBoat}} 
+          </ng-template>
+        </ngx-datatable-column>
+        
+        <ngx-datatable-column name="island">
+          <ng-template let-column="column" ngx-datatable-header-template>Eiland</ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row.island}} 
+          </ng-template>
+        </ngx-datatable-column>
 
       </ngx-datatable>     
     </mat-expansion-panel>
