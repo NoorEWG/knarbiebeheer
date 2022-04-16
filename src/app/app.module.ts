@@ -13,6 +13,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { IonicSelectableModule } from 'ionic-selectable';
+import { VisitorService } from './tab0/visitor.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,6 +31,7 @@ import { IonicSelectableModule } from 'ionic-selectable';
   providers: [AboService,
     BotterService, 
     OverzichtService, 
+    VisitorService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent],

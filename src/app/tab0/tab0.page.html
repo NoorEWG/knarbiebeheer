@@ -31,32 +31,52 @@
       </mat-expansion-panel-header>
       
       <ion-card>
-        <form [formGroup]="bezoekForm" novalidate *ngIf="showBezoekForm">
+        <form [formGroup]="bezoekersForm" novalidate *ngIf="showBezoekForm">
               
           <ion-item>
-            <span class="ion-label">Datum</span>
-            <ion-input name="datum" formControlName="datum" type="datum"></ion-input>
+            <ion-label>Datum</ion-label>
+            <ion-input name="datum" formControlName="datum" type="date" (input)="parseDate($event.target.value)"></ion-input>
           </ion-item>
       
           <ion-item>
-            <span class="ion-label">Personen</span>
+            <ion-label>Personen</ion-label>
             <ion-input name="persons" formControlName="persons" type="number"></ion-input>
           </ion-item>
           
           <ion-item>
-            <span class="ion-label">Lengte boot</span>
+            <ion-label>Lengte boot</ion-label>
             <ion-input name="lengthBoat" formControlName="lengthBoat" type="number"></ion-input>
           </ion-item>
       
           <ion-item>
-            <span class="ion-label">Tent</span>
+            <ion-label>Tent</ion-label>
             <ion-input name="tents" formControlName="tents" type="number"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Betaling contant</ion-label>
+            <ion-checkbox name="cashPayment" formControlName="cashPayment"></ion-checkbox>
           </ion-item>
       
           <ion-item>
-            <span class="ion-label">Eiland</span>
-            <ion-input name="eiland" formControlName="eiland" type="text"></ion-input>
+            <ion-label>Eiland</ion-label>
+            <ion-select name="island" formControlName="island" placeholder="Kies een eiland">
+              <ion-select-option value="de Biezen">de Biezen</ion-select-option>
+              <ion-select-option value="Knarland">Knarland</ion-select-option>
+              <ion-select-option value="Leydam">Leydam</ion-select-option>
+            </ion-select>
+           </ion-item>
+
+           <ion-item>
+            <ion-label>Naam boot</ion-label>
+            <ion-input name="nameBoat" formControlName="nameBoat" type="text" placeholder="Vul de naam van de boot in (optioneel)"></ion-input>
           </ion-item>
+
+          <ion-item>
+            <ion-label>Opmerking</ion-label>
+            <ion-input name="remarks" formControlName="remarks" type="text" placeholder="Vul eventuele opmerkingen in (optioneel)"></ion-input>
+          </ion-item>
+
         </form>
         <ion-button (click)="save()" text-center>Opslaan</ion-button>
         <ion-button (click)="cancel()" text-center>Terug</ion-button>

@@ -27,27 +27,7 @@ const routes: Routes = [
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
-      },
-      {
-        path: 'bezoek',
-        redirectTo: '/tabs/tab0',
-        pathMatch: 'full'
-      },
-      {
-        path: 'abonnement',
-        redirectTo: '/tabs/tab1',
-        pathMatch: 'full'
-      },
-      {
-        path: 'botters',
-        redirectTo: '/tabs/tab2',
-        pathMatch: 'full'
-      },
-      {
-        path: 'overzichten',
-        redirectTo: '/tabs/tab3',
-        pathMatch: 'full'
-      }
+      } 
     ]
   },
   {

@@ -1,7 +1,9 @@
+import { VisitorService } from './visitor.service';
 import { Component } from '@angular/core';
 import { ToastController} from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
-import { BbqOvernachtingDatum } from '../model/bbq-overnachting-datum';
+import { IslandVisitor } from '../model/island-visitor';
 import * as moment from 'moment';
 
 @Component({
@@ -12,6 +14,8 @@ import * as moment from 'moment';
 export class Tab0Page {
 
   public chosenYear: number;
+  public userName: string;
+  public island: string;
   public showBezoekForm: boolean;
   public bezoekersForm: FormGroup;
   public columns: any;
@@ -19,28 +23,40 @@ export class Tab0Page {
   public filteredData: any;
   public columnsWithSearch : string[] = [];
   public message: string;
-  public bbqOvernachtingenPerDatum: BbqOvernachtingDatum[];
+  public islandVisitorsPerDate: IslandVisitor[];
   public dateSearch: any;
   public allRows: any;
-  public bezoeker: BbqOvernachtingDatum;
+  public bezoeker: IslandVisitor;
+  public chosenDate;
 
   constructor(
-    private toastCtrl: ToastController,) {}
+    private toastCtrl: ToastController, 
+    private storage: Storage,
+    private visitorService: VisitorService) {}
 
   ngOnInit(): void {
-    this.bezoeker = new BbqOvernachtingDatum();
+    this.bezoeker = new IslandVisitor();
+    this.chosenDate = new Date().toISOString().split('T')[0];  
     this.setBezoekerForm();
+
+    this.storage.get("userName").then((result) => {
+      this.userName = result;
+      this.island = this.userName === 'Edwin' || this.userName === 'Erica'  ? 'de Biezen' : 'Knarland';
+      this.resetBezoekersForm();
+    });
+
     this.chosenYear = new Date().getFullYear();
     this.dateSearch = new Date().toISOString().split('T')[0];
     this.showBezoekForm = true;
     this.rows = [];
     this.allRows = [];
     this.columns = [
-      { name: 'persons', sortable: true },
-      { name: 'lengthBoat', sortable: true },
-      { name: 'tents', sortable: true },
+      { name: 'persons', sortable: false },
+      { name: 'lengthBoat', sortable: false },
+      { name: 'tents', sortable: false },
       { name: 'island', sortable: true },
       { name: 'datum', sortable: true },
+      { name: 'nameBoat', sortable: true },
     ];
   }
 
@@ -50,7 +66,10 @@ export class Tab0Page {
       persons: new FormControl(this.bezoeker.persons),
       lengthBoat: new FormControl(this.bezoeker.lengthBoat),
       tents: new FormControl(this.bezoeker.tents),
-      island: new FormControl(this.bezoeker.island)
+      cashPayment: new FormControl(this.bezoeker.cashPayment),
+      island: new FormControl(this.bezoeker.island),
+      nameBoat: new FormControl(this.bezoeker.nameBoat),
+      remarks: new FormControl(this.bezoeker.remarks)
     });
   }  
 
@@ -65,7 +84,7 @@ export class Tab0Page {
 
   onActivate(event) {
     if(event.type == 'click') {
-      let perBoat = this.bbqOvernachtingenPerDatum.filter(r => r.id === event.row.id);
+      let perBoat = this.islandVisitorsPerDate.filter(r => r.id === event.row.id);
       let message = event.row.bootNaam + ': ';
       let data = [];
       if (perBoat !== null && perBoat.length > 0) {
@@ -112,7 +131,39 @@ export class Tab0Page {
           return true;
         }
       });
+    }    
+  }
+
+  public parseDate(dateString: string) {
+    if (dateString) {
+        this.chosenDate = new Date(dateString).toISOString().split('T')[0];
     }
-    
+  }
+
+  public save() {
+    this.visitorService.saveVisit(this.bezoekersForm.value).subscribe(result => {
+      this.message = result.message;
+      this.presentToast();
+      if (result.errorCode === 0) {
+        this.resetBezoekersForm();
+      }
+     });
+  }
+
+  public cancel() {
+    this.resetBezoekersForm();
+  }
+
+  public resetBezoekersForm() {
+    this.chosenDate = new Date().toISOString().split('T')[0];  
+    this.bezoeker.island = this.island;
+    this.bezoeker.datum = this.chosenDate;
+    this.bezoeker.persons = 0;
+    this.bezoeker.lengthBoat = 0;
+    this.bezoeker.tents = 0;   
+    this.bezoeker.cashPayment = true;
+    this.bezoeker.remarks = null;
+    this.bezoeker.nameBoat = null;
+    this.setBezoekerForm();
   }
 }
