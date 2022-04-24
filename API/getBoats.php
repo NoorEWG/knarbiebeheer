@@ -14,7 +14,14 @@
     ORDER BY naam_boot";
     $res=$bdd->prepare($sql);
     $res->execute();   
-    $data=$res->fetchAll(PDO::FETCH_ASSOC);   
+    $data=array();
+
+    while($row = $res->fetch(PDO::FETCH_ASSOC))
+    {
+        # Converting each column to UTF8
+        $row = array_map('utf8_encode', $row);
+        array_push($data,$row);
+    }
     print json_encode($data);
 	$bdd = null;
 	
