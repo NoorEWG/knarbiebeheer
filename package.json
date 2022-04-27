@@ -29,6 +29,7 @@
     "@swimlane/ngx-datatable": "^19.0.0",
     "cordova": "^10.0.0",
     "cordova-android": "^10.0.1",
+    "cordova-browser": "6.0.0",
     "cordova-common": "^4.0.2",
     "ionic-selectable": "^4.9.0",
     "ionic4-tooltips": "^2.0.2",
@@ -91,7 +92,8 @@
       "cordova-plugin-ionic-keyboard": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "browser"
     ]
   }
 }

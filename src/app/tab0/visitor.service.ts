@@ -15,7 +15,6 @@ export class VisitorService {
    * Register a visit of a visitor without a subscription
    */
   saveVisit(eilandBezoek: IslandVisitor): Observable<Result> {
-    // console.log(JSON.stringify(eilandBezoek));
     return this.http.post<Result>(environment.saveVisitWithoutAboUrl, eilandBezoek);
   }
 
@@ -23,7 +22,6 @@ export class VisitorService {
    * Get all visits without a subscription for a specific year
    */
    getVisits(year: number): Observable<IslandVisitor[]> {
-    // console.log(JSON.stringify(eilandBezoek));
     return this.http.get<IslandVisitor[]>(environment.getVisitsWithoutAboUrl + year);
   }
 

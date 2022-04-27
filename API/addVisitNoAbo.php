@@ -16,7 +16,27 @@
     $array['errorCode'] = 0;
     $array['message'] = "";
 
-    if ($decoded['persons'] + $decoded['tents'] + $decoded['lengthBoat'] + $decoded['wood'] > 0) {
+    if ($decoded['persons'] == null) {
+        $decoded['persons'] = 0;
+    } 
+
+    if ($decoded['tents'] == null) {
+        $decoded['tents'] = 0;
+    } 
+
+    if ($decoded['wood'] == null) {
+        $decoded['wood'] = 0;
+    } 
+
+    if ($decoded['lengthBoat'] == null) {
+        $decoded['lengthBoat'] = 0;
+    } 
+
+    if ($decoded['id'] && $decoded['id'] > 0) {
+        $array['errorCode'] = 2;
+        $array['message'] = "Het is niet mogelijk om het bezoek te updaten, deze functionaliteiit is nog niet beschikbaar.";
+    
+    } elseif ($decoded['persons'] + $decoded['tents'] + $decoded['lengthBoat'] + $decoded['wood'] > 0) {
 
         $sql = "INSERT INTO randmeren_visits (`personen`, `lengte_boot`, `hout`, `tenten`, `eiland`, `datum`, `naam_boot`, `opmerking`, `cash_payment`)
         VALUES (:personen,:lengte_boot,:wood,:tenten,:eiland,:datum,:naam_boot,:opmerking,:cash_payment)";

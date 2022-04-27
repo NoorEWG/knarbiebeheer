@@ -1,9 +1,9 @@
+import { IslandVisitor } from './../model/island-visitor';
 import { VisitorService } from './visitor.service';
 import { Component } from '@angular/core';
 import { ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
-import { IslandVisitor } from '../model/island-visitor';
 import * as moment from 'moment';
 
 @Component({
@@ -47,7 +47,8 @@ export class Tab0Page {
     });
 
     this.visitorService.getVisits(this.chosenYear).subscribe((result) => {
-      this.rows = result;
+      this.allRows = result;
+      this.rows = this.filterVisitsOnDate(this.chosenDate, "datum");
     });
 
     
@@ -91,19 +92,11 @@ export class Tab0Page {
 
   onActivate(event) {
     if(event.type == 'click') {
-      let perBoat = this.islandVisitorsPerDate.filter(r => r.id === event.row.id);
-      let message = event.row.bootNaam + ': ';
-      let data = [];
-      if (perBoat !== null && perBoat.length > 0) {
-        perBoat.forEach(row => {
-          data.push(row.datum);
-        });
-        message = message +  data.join(', ');
-      } else {
-        message = message +  'Geen bezoek geregistreerd</div>';
-      }
-      this.message = message;
-      this.presentToast();     
+      let visitor = this.rows.filter(r => r.id === event.row.id)[0];
+      this.chosenDate = visitor.datum; 
+      this.bezoeker = visitor;
+      this.setBezoekerForm();
+      this.showBezoekForm = true;    
     }
   }
 
@@ -119,26 +112,25 @@ export class Tab0Page {
     this.filterDatatable(this.dateSearch, 'datum');
   }
 
-  filterDatatable(event, tabel){
+  filterDatatable(event, column){
     let filter;
     if (event.target !== undefined && event.target !== null) {     
       filter = event.target.value.toLowerCase();
     } else {
       filter = event;
     }
-    if (tabel === 'datum') {
-      let splitString = filter.split("-");
-      const year = splitString[0];
-      const month = splitString[1];
-      const day = splitString[2];
-      const correctDate = day + "-" + month + "-" + year;
-      this.rows = this.allRows.filter(item => {
-        var colValue = item[tabel];
-        if (colValue && colValue === correctDate) {
-          return true;
-        }
-      });
+    if (column === 'datum') {
+      this.filterVisitsOnDate(column, filter);
     }    
+  }
+
+  filterVisitsOnDate(column, filter) {
+    this.rows = this.allRows.filter(item => {
+      var colValue = item[column];
+      if (colValue && colValue === filter) {
+        return true;
+      }
+    });
   }
 
   public parseDate(dateString: string) {
@@ -154,7 +146,7 @@ export class Tab0Page {
       if (result.errorCode === 0) {
         this.resetBezoekersForm();
       }
-     });
+    });
   }
 
   public cancel() {
@@ -165,10 +157,10 @@ export class Tab0Page {
     this.chosenDate = new Date().toISOString().split('T')[0];  
     this.bezoeker.island = this.island;
     this.bezoeker.datum = this.chosenDate;
-    this.bezoeker.persons = 0;
-    this.bezoeker.lengthBoat = 0;
-    this.bezoeker.wood = 0;
-    this.bezoeker.tents = 0;   
+    this.bezoeker.persons = null;
+    this.bezoeker.lengthBoat = null;
+    this.bezoeker.wood = null;
+    this.bezoeker.tents = null;   
     this.bezoeker.cashPayment = true;
     this.bezoeker.remarks = null;
     this.bezoeker.nameBoat = null;
