@@ -28,6 +28,13 @@ export class Tab0Page {
   public allRows: any;
   public bezoeker: IslandVisitor;
   public chosenDate;
+  public persons = 0;
+  public boats = 0;
+  public tents = 0;
+  public wood = 0;
+  public totaal = 0;
+  public cash = 0;
+  public bank = 0;
 
   constructor(
     private toastCtrl: ToastController, 
@@ -131,6 +138,41 @@ export class Tab0Page {
         return true;
       }
     });
+    var persons = 0;
+    var boats = 0;
+    var tents = 0;
+    var wood = 0;
+    var totaal = 0;
+    var cash = 0;
+    var bank = 0;
+    this.rows.forEach(e => {
+      persons = persons + (isNaN(e.persons) ? 0 : parseInt(e.persons));    
+      boats = boats + (isNaN(e.boats)  ? 0 : parseInt(e.boats));   
+      tents = tents + (isNaN(e.tents) ? 0 : parseInt(e.tents));
+      wood = wood + (isNaN(e.wood) ? 0 : parseInt(e.wood)); 
+      var opbrengst = persons + boats + tents + wood;
+      if (e.cashPayment == 1) {
+        cash = cash + opbrengst; 
+      } else {
+        bank = bank + opbrengst;
+      }              
+      totaal = totaal + opbrengst;
+    });
+    this.persons = persons;
+    this.boats = boats;
+    this.tents = tents;
+    this.wood = wood;
+    this.totaal = totaal;
+    this.bank = bank;
+    this.cash = cash;
+
+    console.log("Personen: " + persons);
+    console.log("Boten: " + boats);
+    console.log("Tenten: " + tents);
+    console.log("Hout: " + wood);
+    console.log("Totaal: " + totaal);
+    console.log("Cash: " + cash);
+    console.log("Bank: " + bank);
   }
 
   public parseDate(dateString: string) {

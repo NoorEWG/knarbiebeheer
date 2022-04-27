@@ -5,6 +5,10 @@ App voor de beheerders van Knarland / de Biezen / Leydam
 
 Deze app bevat:
 
+BBQ en overnachtingen
+* Invoer van bezoek van dagjesmensen en overnachtingen zonder abonnement
+* Overzicht van het aantal bezoekers per dag zonder abonnement
+
 Abonnementen
 * Een lijst van abonnementshouders van de Gastvrije Randmeren (welke regelmatig zal worden bijgewerkt)
 * De mogelijkheid om in de lijst met abonnementshouders op naam van abonnementshouder of boot te zoeken

@@ -113,7 +113,7 @@
           [rowHeight]="35" 
           [columnMode]="'force'" 
           [sortType]="'multi'" 
-          [messages]="{emptyMessage: 'Er zijn geen gegevens voor deze datum'}"  
+          [messages]="{emptyMessage: 'Er zijn geen gegevens voor deze datum'}"
           [headerHeight]="40" 
           [footerHeight]="60">
       
@@ -165,8 +165,31 @@
             {{row.island}} 
           </ng-template>
         </ngx-datatable-column>
+      </ngx-datatable>  
 
-      </ngx-datatable>     
+      <br/>
+      <ion-card>
+        <ion-card-header>
+          <em>Totalen {{chosenDate}}</em>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="footer-flex">
+            <div class="footer-label">personen:</div><div>&euro; {{persons}}</div>
+          </div>
+          <div class="footer-flex">
+            <div class="footer-label">boten:</div><div>&euro; {{boats}}</div>
+          </div>
+          <div class="footer-flex">
+            <div class="footer-label">tenten:</div><div>&euro; {{tents}}</div>
+          </div>
+          <div class="footer-flex">
+            <div class="footer-label">hout:</div><div>&euro; {{wood}}</div>
+          </div>
+          <div class="footer-flex">
+            <div class="footer-label">totaal:</div><div>&euro; {{totaal}} (contant &euro; {{cash}} - bank &euro; {{bank}})</div>
+          </div>    
+        </ion-card-content>
+      </ion-card>  
     </mat-expansion-panel>
 
   </mat-accordion>
