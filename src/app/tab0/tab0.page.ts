@@ -43,7 +43,8 @@ export class Tab0Page {
 
   ngOnInit(): void {
     this.bezoeker = new IslandVisitor();
-    this.chosenDate = new Date().toISOString().split('T')[0];  
+    this.chosenDate = new Date().toISOString().split('T')[0];
+    this.dateSearch = new Date().toISOString().split('T')[0];
     this.chosenYear = new Date().getFullYear();
     this.setBezoekerForm();
 
@@ -55,11 +56,9 @@ export class Tab0Page {
 
     this.visitorService.getVisits(this.chosenYear).subscribe((result) => {
       this.allRows = result;
-      this.rows = this.filterVisitsOnDate(this.chosenDate, "datum");
+      this.filterVisitsOnDate(this.dateSearch, "datum");
     });
 
-    
-    this.dateSearch = new Date().toISOString().split('T')[0];
     this.showBezoekForm = true;
     this.rows = [];
     this.allRows = [];
@@ -127,11 +126,11 @@ export class Tab0Page {
       filter = event;
     }
     if (column === 'datum') {
-      this.filterVisitsOnDate(column, filter);
+      this.filterVisitsOnDate(filter, column);
     }    
   }
 
-  filterVisitsOnDate(column, filter) {
+  filterVisitsOnDate(filter, column) {
     this.rows = this.allRows.filter(item => {
       var colValue = item[column];
       if (colValue && colValue === filter) {
@@ -146,33 +145,28 @@ export class Tab0Page {
     var cash = 0;
     var bank = 0;
     this.rows.forEach(e => {
-      persons = persons + (isNaN(e.persons) ? 0 : parseInt(e.persons));    
-      boats = boats + (isNaN(e.boats)  ? 0 : parseInt(e.boats));   
-      tents = tents + (isNaN(e.tents) ? 0 : parseInt(e.tents));
-      wood = wood + (isNaN(e.wood) ? 0 : parseInt(e.wood)); 
-      var opbrengst = persons + boats + tents + wood;
+      var p = (isNaN(e.persons) ? 0 :  parseFloat(e.persons));
+      persons = persons + p;
+      var b =  (isNaN(e.boatPrice)  ? 0 : parseFloat(e.boatPrice));   
+      boats = boats + b;
+      var t = (isNaN(e.tents) ? 0 : parseFloat(e.tents));
+      tents = tents + t;
+      var w = (isNaN(e.wood) ? 0 : parseFloat(e.wood)); 
+      wood = wood + w
+      totaal = totaal + p + b + t + w;
       if (e.cashPayment == 1) {
-        cash = cash + opbrengst; 
+        cash = cash + p + b + t + w; 
       } else {
-        bank = bank + opbrengst;
+        bank = bank + p + b + t + w;
       }              
-      totaal = totaal + opbrengst;
     });
-    this.persons = persons;
-    this.boats = boats;
-    this.tents = tents;
-    this.wood = wood;
-    this.totaal = totaal;
-    this.bank = bank;
-    this.cash = cash;
-
-    console.log("Personen: " + persons);
-    console.log("Boten: " + boats);
-    console.log("Tenten: " + tents);
-    console.log("Hout: " + wood);
-    console.log("Totaal: " + totaal);
-    console.log("Cash: " + cash);
-    console.log("Bank: " + bank);
+    this.persons = Math.round(persons * 100) / 100;
+    this.boats = Math.round(boats * 100) / 100;
+    this.tents = Math.round(tents * 100) / 100;
+    this.wood = Math.round(wood * 100) / 100;
+    this.totaal = Math.round(totaal * 100) / 100;
+    this.bank = Math.round(bank * 100) / 100;
+    this.cash = Math.round(cash * 100) / 100;
   }
 
   public parseDate(dateString: string) {

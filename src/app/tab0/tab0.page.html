@@ -170,23 +170,23 @@
       <br/>
       <ion-card>
         <ion-card-header>
-          <em>Totalen {{chosenDate}}</em>
+          <em>Totalen {{dateSearch}}</em>
         </ion-card-header>
         <ion-card-content>
           <div class="footer-flex">
-            <div class="footer-label">personen:</div><div>&euro; {{persons}}</div>
+            <div class="footer-label">personen:</div><div>&euro; {{persons  | number : '1.2-2'}}</div>
           </div>
           <div class="footer-flex">
-            <div class="footer-label">boten:</div><div>&euro; {{boats}}</div>
+            <div class="footer-label">boten:</div><div>&euro; {{boats  | number : '1.2-2'}}</div>
           </div>
           <div class="footer-flex">
-            <div class="footer-label">tenten:</div><div>&euro; {{tents}}</div>
+            <div class="footer-label">tenten:</div><div>&euro; {{tents  | number : '1.2-2'}}</div>
           </div>
           <div class="footer-flex">
-            <div class="footer-label">hout:</div><div>&euro; {{wood}}</div>
+            <div class="footer-label">hout:</div><div>&euro; {{wood  | number : '1.2-2'}}</div>
           </div>
           <div class="footer-flex">
-            <div class="footer-label">totaal:</div><div>&euro; {{totaal}} (contant &euro; {{cash}} - bank &euro; {{bank}})</div>
+            <div class="footer-label">totaal:</div><div>&euro; {{totaal  | number : '1.2-2'}} (contant &euro; {{cash  | number : '1.2-2'}} - bank &euro; {{bank  | number : '1.2-2'}})</div>
           </div>    
         </ion-card-content>
       </ion-card>  
