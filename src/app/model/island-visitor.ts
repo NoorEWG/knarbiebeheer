@@ -4,6 +4,8 @@ export class IslandVisitor {
   visitorsPrice: number;
   lengthBoat: number;
   boatPrice: number;
+  boat: number;
+  tip: number;
   wood: number;
   woodPrice: number;
   tents: number;

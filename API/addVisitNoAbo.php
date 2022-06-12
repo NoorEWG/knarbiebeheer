@@ -32,24 +32,34 @@
         $decoded['lengthBoat'] = 0;
     } 
 
+    if ($decoded['boat'] == null) {
+        $decoded['boat'] = 0;
+    } 
+
+    if ($decoded['tip'] == null) {
+        $decoded['tip'] = 0;
+    } 
+
     if ($decoded['id'] && $decoded['id'] > 0) {
         $array['errorCode'] = 2;
         $array['message'] = "Het is niet mogelijk om het bezoek te updaten, deze functionaliteiit is nog niet beschikbaar.";
     
     } elseif ($decoded['persons'] + $decoded['tents'] + $decoded['lengthBoat'] + $decoded['wood'] > 0) {
 
-        $sql = "INSERT INTO randmeren_visits (`personen`, `lengte_boot`, `hout`, `tenten`, `eiland`, `datum`, `naam_boot`, `opmerking`, `cash_payment`)
-        VALUES (:personen,:lengte_boot,:wood,:tenten,:eiland,:datum,:naam_boot,:opmerking,:cash_payment)";
+        $sql = "INSERT INTO randmeren_visits (`personen`, `lengte_boot`, `boot`, `hout`, `tenten`, `fooi`, `eiland`, `datum`, `naam_boot`, `opmerking`, `cash_payment`)
+        VALUES (:personen,:lengte_boot,:boot,:wood,:tenten,:fooi,:eiland,:datum,:naam_boot,:opmerking,:cash_payment)";
         $res=$bdd->prepare($sql);
         $res->bindParam(':personen', $decoded['persons']);
         $res->bindParam(':lengte_boot', $decoded['lengthBoat']);
+        $res->bindParam(':boot', $decoded['boat']);
         $res->bindParam(':wood', $decoded['wood']);
         $res->bindParam(':tenten', $decoded['tents']);
+        $res->bindParam(':fooi', $decoded['tip']);
         $res->bindParam(':eiland', $decoded['island']);
         $res->bindParam(':cash_payment', $decoded['cashPayment']);
         $res->bindParam(':datum', $decoded['datum']);
-        $res->bindParam(':naam_boot', $decoded['naamBoot']);
-        $res->bindParam(':opmerking', $decoded['opmerking']);
+        $res->bindParam(':naam_boot', $decoded['nameBoat']);
+        $res->bindParam(':opmerking', $decoded['remarks']);
         $success = $res->execute();  
 
         if ($success == true) {

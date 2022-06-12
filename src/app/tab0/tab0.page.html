@@ -1,18 +1,17 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Invoer bbq / overnachtingen {{ chosenYear }}
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Invoer bezoeker {{ chosenYear }}</ion-title>
   </ion-toolbar>
 </ion-header>
-
-
 
 <ion-content [fullscreen]="true">
   
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Overzicht BBQ / overnachtingen {{ chosenYear }}</ion-title>
+      <ion-title size="large">Overzicht bezoekers {{ chosenYear }}</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -26,7 +25,7 @@
     <mat-expansion-panel expanded="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Toevoegen bbq / overnachtingen
+          Toevoegen bezoeker
         </mat-panel-title>
       </mat-expansion-panel-header>
       
@@ -44,13 +43,14 @@
           </ion-item>
           
           <ion-item>
-            <ion-label>Verkoop hout</ion-label>
-            <ion-input name="wood" formControlName="wood" type="number"></ion-input>
+            <ion-label>Boot</ion-label>
+            <ion-input name="boat" formControlName="boat" type="number"></ion-input>
           </ion-item>
-      
+          <span *ngIf="showBoatLength">Lengte boot: {{ lengteBoot }} meter, fooi: {{ fooi}} &euro;</span>
+
           <ion-item>
-            <ion-label>Lengte boot</ion-label>
-            <ion-input name="lengthBoat" formControlName="lengthBoat" type="number"></ion-input>
+            <ion-label>Hout</ion-label>
+            <ion-input name="wood" formControlName="wood" type="number"></ion-input>
           </ion-item>
 
           <ion-item>

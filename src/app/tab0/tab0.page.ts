@@ -35,6 +35,9 @@ export class Tab0Page {
   public totaal = 0;
   public cash = 0;
   public bank = 0;
+  public showBoatLength = false;
+  public lengteBoot = 0;
+  public fooi = 0;
 
   constructor(
     private toastCtrl: ToastController, 
@@ -73,17 +76,34 @@ export class Tab0Page {
     ];
   }
 
+ 
+
   setBezoekerForm() {
     this.bezoekersForm = new FormGroup({
       datum: new FormControl(this.bezoeker.datum),
       persons: new FormControl(this.bezoeker.persons),
+      boat: new FormControl(this.bezoeker.boat),
       lengthBoat: new FormControl(this.bezoeker.lengthBoat),
+      tip: new FormControl(this.bezoeker.tip),
       wood: new FormControl(this.bezoeker.wood),
       tents: new FormControl(this.bezoeker.tents),
       cashPayment: new FormControl(this.bezoeker.cashPayment),
       island: new FormControl(this.bezoeker.island),
       nameBoat: new FormControl(this.bezoeker.nameBoat),
       remarks: new FormControl(this.bezoeker.remarks)
+    });
+    this.bezoekersForm.get("boat").valueChanges.subscribe(prijs => {
+      let lengteBoot = Math.round((Math.round((prijs / 0.8)*100)/100) * 2) /2;                           
+      let fooi = Math.round((prijs - lengteBoot * 0.8)*100)/100;
+      if (fooi < 0) {
+        lengteBoot = lengteBoot - 0.5;
+        fooi = fooi + 0.5;
+      }
+      this.bezoekersForm.get('lengthBoat').setValue(lengteBoot);
+      this.lengteBoot = lengteBoot;
+      this.bezoekersForm.get('tip').setValue(fooi);
+      this.fooi = fooi;
+      this.showBoatLength = true;
     });
   }  
 

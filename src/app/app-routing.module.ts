@@ -7,11 +7,11 @@ const routes: Routes = [
     redirectTo: 'login', pathMatch: 'full' 
   },
   {
-    path: 'bezoek',
+    path: 'dag',
     loadChildren: () => import('./tab0/tab0.module').then(m => m.Tab0PageModule)
   },
   {
-    path: 'abonnement',
+    path: 'vlag',
     loadChildren: () => import('./tab1/tab1.module').then(m => m.Tab1PageModule)
   },
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
     loadChildren: () => import('./tab2/tab2.module').then(m => m.Tab2PageModule)
   },
   {
-    path: 'overzichten',
+    path: 'overzicht',
     loadChildren: () => import('./tab3/tab3.module').then(m => m.Tab3PageModule)
   },
   {

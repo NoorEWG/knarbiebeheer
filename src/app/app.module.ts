@@ -14,6 +14,9 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { IonicSelectableModule } from 'ionic-selectable';
 import { VisitorService } from './tab0/visitor.service';
+import { Platform } from '@ionic/angular';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,7 +31,11 @@ import { VisitorService } from './tab0/visitor.service';
     IonicStorageModule.forRoot(),
     IonicSelectableModule
   ],
-  providers: [AboService,
+  providers: [
+    Platform,
+    StatusBar,
+    SplashScreen,
+    AboService,
     BotterService, 
     OverzichtService, 
     VisitorService,
