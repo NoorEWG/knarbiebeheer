@@ -57,10 +57,7 @@ export class Tab0Page {
       this.resetBezoekersForm();
     });
 
-    this.visitorService.getVisits(this.chosenYear).subscribe((result) => {
-      this.allRows = result;
-      this.filterVisitsOnDate(this.dateSearch, "datum");
-    });
+    this.getBezoekers();
 
     this.showBezoekForm = true;
     this.rows = [];
@@ -76,7 +73,12 @@ export class Tab0Page {
     ];
   }
 
- 
+  getBezoekers() {
+    this.visitorService.getVisits(this.chosenYear).subscribe((result) => {
+      this.allRows = result;
+      this.filterVisitsOnDate(this.dateSearch, "datum");
+    });
+  } 
 
   setBezoekerForm() {
     this.bezoekersForm = new FormGroup({
@@ -201,6 +203,7 @@ export class Tab0Page {
       this.presentToast();
       if (result.errorCode === 0) {
         this.resetBezoekersForm();
+        this.getBezoekers();
       }
     });
   }
@@ -222,4 +225,16 @@ export class Tab0Page {
     this.bezoeker.nameBoat = null;
     this.setBezoekerForm();
   }
+
+  radioGroupChange(event) {
+    console.log("radioGroupChange",event.detail.value);
+    let opmerking =  event.detail.value;
+    if (this.bezoekersForm.get('remarks').value !== null) {
+      opmerking = this.bezoekersForm.get('remarks').value + " " + event.detail.value;
+    }
+    console.log("remarks", opmerking);
+    this.bezoekersForm.get('remarks').setValue(opmerking);
+  }
+
+
 }

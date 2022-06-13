@@ -75,11 +75,8 @@ export class Tab1Page {
       { name: 'boot', header: 'Boot', sortable: true },
       { name: 'type', header: 'Type boot', sortable: true }
     ];
-    this.aboService.getAllSubscriptions(this.chosenYear).subscribe(results => {
-      this.rows = results;
-      this.filteredData = this.rows;
-      this.columnsWithSearch = ["naam","boot","type"];
-    });
+
+    this.getSubscriptions();
 
     this.aboService.getAllBoatTypes().subscribe(results => {
       this.boatTypeList = results;
@@ -124,6 +121,14 @@ export class Tab1Page {
       this.rows = results;
       this.filteredData = this.rows;
      });
+  }
+
+  getSubscriptions() {
+    this.aboService.getAllSubscriptions(this.chosenYear).subscribe(results => {
+      this.rows = results;
+      this.filteredData = this.rows;
+      this.columnsWithSearch = ["naam","boot","type"];
+    });
   }
 
   // filters results
@@ -371,6 +376,7 @@ export class Tab1Page {
       this.presentToast();
       this.user = null;
       this.boat = null;
+      this.getSubscriptions();
     });
 
   }

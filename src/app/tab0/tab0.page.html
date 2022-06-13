@@ -29,7 +29,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       
-      <ion-card>
+      <ion-card class="small-font">
         <form [formGroup]="bezoekersForm" novalidate *ngIf="showBezoekForm">
               
           <ion-item>
@@ -47,6 +47,24 @@
             <ion-input name="boat" formControlName="boat" type="number"></ion-input>
           </ion-item>
           <span *ngIf="showBoatLength">Lengte boot: {{ lengteBoot }} meter, fooi: {{ fooi}} &euro;</span>
+
+          <ion-radio-group name="radio-group" (ionChange)="radioGroupChange($event)" #radioGroup>
+              <ion-item>
+                
+                <ion-radio value="Huursloep"></ion-radio>
+                <ion-label class="small-radio-group" >Huursloep</ion-label>
+                
+                <ion-radio value="Sloep"></ion-radio>
+                <ion-label class="small-radio-group">Sloep</ion-label>
+
+                <ion-radio value="Motorboot"></ion-radio>
+                <ion-label class="small-radio-group">Motorboot</ion-label>
+                
+                <ion-radio value="Zeilboot"></ion-radio>
+                <ion-label class="small-radio-group">Zeilboot</ion-label>
+
+          </ion-item>
+        </ion-radio-group>
 
           <ion-item>
             <ion-label>Hout</ion-label>
