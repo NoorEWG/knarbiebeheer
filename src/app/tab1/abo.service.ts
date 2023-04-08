@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { Abonnement } from '../model/Abonnement';
 import { User } from '../model/user';
 import { Boot } from '../model/boot';
+import { BootCompleet } from '../model/boot-compleet';
 import { UserBoot } from '../model/user-boot';
 import { BootType } from '../model/boot-type';
 import { Result } from '../model/result';
@@ -74,8 +75,8 @@ export class AboService {
    /**
   * Find boat by user
   */
-  getBoatByUserId(id: number): Observable<Boot> {
-    return this.http.get<Boot>(environment.findBoatByUserUrl + id );
+  getBoatByUserId(id: number): Observable<BootCompleet> {
+    return this.http.get<BootCompleet>(environment.findBoatByUserUrl + id );
   }
 
 } 

@@ -9,7 +9,6 @@ import { Boot } from '../model/boot';
 import { BootType } from '../model/boot-type';
 import { UserBoot } from '../model/user-boot';
 
-
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -49,7 +48,6 @@ export class Tab1Page {
   public boatTypeList: BootType[];
   public message: string = "";
   public userBoat: UserBoot;
-  public selectedBootType: BootType;
   public hasNoAboYet: boolean = true;
   
   constructor(
@@ -201,10 +199,13 @@ export class Tab1Page {
 
   getUser(event) {
     this.user = event.value;
-    // console.log(JSON.stringify(this.user));
     this.setUserBoatSaveUpdate(false,false,false,false,true,false);
     this.aboService.getBoatByUserId(this.user.bootId).subscribe(results => {
-      this.boat = results;
+      let bootCompleet = results;
+      this.boat.id = bootCompleet.id; 
+      this.boat.naamBoot = bootCompleet.naamBoot;
+      this.boat.lengteBoot = bootCompleet.lengteBoot;
+      this.boat.typeBoot = bootCompleet.typeBoot.id;
       this.setUserBoatForm();
       this.showUserForm = true;
       this.showUserList = true;
@@ -255,7 +256,7 @@ export class Tab1Page {
 
   getBoat(event) {
     this.boat = event.value;
-    if (this.user == null && this.user.id == null) {
+    if (this.user == null || this.user.id == null) {
       this.user = new User();
       this.showUserList = false;
       this.showUserForm = false;
@@ -286,7 +287,7 @@ export class Tab1Page {
     if (event.returnValue) {
       this.showBoatForm = true;
     } else {
-      this.boat = null;
+      this.boat = new Boot();
       this.showBoatForm = false;
     }
   }
@@ -374,8 +375,8 @@ export class Tab1Page {
       this.showBoatList = false;
       this.message = result.message;
       this.presentToast();
-      this.user = null;
-      this.boat = null;
+      this.user = new User();
+      this.boat = new Boot();
       this.getSubscriptions();
     });
 

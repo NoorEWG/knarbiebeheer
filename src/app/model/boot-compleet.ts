@@ -1,9 +1,9 @@
 import { BootType } from './boot-type';
 
-export class Boot {
+export class BootCompleet {
   id: number;
   naamBoot: string;
   lengteBoot: number;
-  typeBoot: number; 
+  typeBoot: BootType; 
   bootCompleet: string;
 }
