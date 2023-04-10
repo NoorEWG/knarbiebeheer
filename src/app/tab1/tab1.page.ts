@@ -48,6 +48,7 @@ export class Tab1Page {
   public boatTypeList: BootType[];
   public message: string = "";
   public userBoat: UserBoot;
+  public selectedBoatType: number;
   public hasNoAboYet: boolean = true;
   
   constructor(

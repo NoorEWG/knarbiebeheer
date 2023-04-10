@@ -23,6 +23,12 @@
     "@angular/platform-browser": "^12.1.4",
     "@angular/platform-browser-dynamic": "~12.1.1",
     "@angular/router": "~12.1.1",
+    "@capacitor/android": "^3.6.0",
+    "@capacitor/app": "^1.1.1",
+    "@capacitor/core": "3.6.0",
+    "@capacitor/haptics": "^1.1.4",
+    "@capacitor/keyboard": "^1.2.3",
+    "@capacitor/status-bar": "^1.0.8",
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/splash-screen": "^5.36.0",
     "@ionic-native/status-bar": "^5.36.0",
@@ -31,7 +37,6 @@
     "@ionic/storage-angular": "^3.0.6",
     "@swimlane/ngx-datatable": "^19.0.0",
     "cordova": "^10.0.0",
-    "cordova-android": "^10.0.1",
     "cordova-browser": "6.0.0",
     "cordova-common": "^4.0.2",
     "ionic-selectable": "^4.9.0",
@@ -54,18 +59,19 @@
     "@angular/compiler": "~12.1.1",
     "@angular/compiler-cli": "~12.1.1",
     "@angular/language-service": "~12.0.1",
+    "@capacitor/cli": "3.6.0",
     "@ionic/angular-toolkit": "^4.0.0",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "4.16.1",
     "@typescript-eslint/parser": "4.16.1",
+    "cordova-android": "^9.1.0",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^4.0.0",
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-statusbar": "2.4.2",
-    "cordova-plugin-whitelist": "^1.3.3",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsdoc": "30.7.6",
@@ -85,7 +91,6 @@
   "description": "Beheerders applicatie voor de eilanden Knarland, de Biezen en de Leydam",
   "cordova": {
     "plugins": {
-      "cordova-plugin-whitelist": {},
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
@@ -95,8 +100,8 @@
       "cordova-plugin-ionic-keyboard": {}
     },
     "platforms": [
-      "android",
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }
